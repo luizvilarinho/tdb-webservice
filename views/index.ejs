@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDB web server</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+   <div id="app" class="main">
+       <input type="text" placeholder="dominio" v-model="dominio">
+       <input type="text" placeholder="cnpjPagador" v-model="cnpjPagador">
+       <input type="text" placeholder="cepOrigem" v-model="cepOrigem">
+       <input type="text" placeholder="cepDestino" v-model="cepDestino">
+       <input type="number" placeholder="valorNF" v-model="valorNF">
+       <input type="number" placeholder="quantidade" v-model="quantidade">
+       <input type="number" placeholder="peso" v-model="peso">
+       <input type="number" placeholder="volume" v-model="volume">
+       <input type="text" placeholder="cnpjDestinatario" v-model="cnpjDestinatario">
+
+       <button @click="cotar()">CLICK</button>
+
+       <br/>
+       <br/>
+       <div v-if = "retornoCotacao != null">
+           
+           {{ retornoCotacao }}
+                <br /><br /><br /><br />
+              {{ retornoCotacao.cotacao.pesoCalculo._text }}
+       </div>
+       <div v-else>
+           Nenhum dado para exibir
+       </div>
+   </div> 
+    
+<script src="/script_views.js"></script>
+</body>
+</html>
+
+
