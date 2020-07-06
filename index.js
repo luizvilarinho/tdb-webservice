@@ -56,6 +56,8 @@ app.post("/tdbwebservice/v1/cotacao", (req, res)=>{
 })
 
 
+var port = process.env.PORT || 3003
+app.listen(port, function() {
+  console.log(`APP backend rodando na porta ${port}.`)
+})
 
-
-app.listen (4200, () => console.log("Proxi is listening"))
