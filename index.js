@@ -22,7 +22,6 @@ app.get("/tdbwebservice/v1/cotacao", (req, res)=>{
 
 app.post("/tdbwebservice/v1/cotacao", (req, res)=>{
     
-
     const obj = {
         dominio:req.body.dominio,
         login:"wservice",
@@ -39,14 +38,12 @@ app.post("/tdbwebservice/v1/cotacao", (req, res)=>{
     };
 
     soap.createClient(url, (err,client) =>{
-        if(!err){client.cotar(obj, (err, response) =>{
-            console.log(response.return.$value);
+        if(!err){
+            client.cotar(obj, (err, response) =>{
             var data = JSON.parse(convert.xml2json(response.return.$value, {compact: true, spaces: 4}));
             console.log(data);
             res.json(data);
-             
          })
-         console.log("OK")   
         }else{
             console.log("um erro ocorreu ", err) 
         }

@@ -1,7 +1,10 @@
 var app = new Vue({
     el: '#app',
     data: {
+        showResponseScreem: false,
         retornoCotacao:null,
+        prazo:0,
+        valorFrete:"",
         dominio:"TDD",
         cnpjPagador:"63004030005740",
         cepOrigem:"07031000",
@@ -13,7 +16,6 @@ var app = new Vue({
         cnpjDestinatario:"00001837825181"
     },
     methods: {
-        
         cotar: function () {
             axios(
                 {
@@ -34,11 +36,17 @@ var app = new Vue({
             ).then((response) => {
                 console.log("response", response)
                 this.retornoCotacao = response.data;
+                this.showResponseScreem = true;
+                this.prazo = response.data.cotacao.prazo._text;
+                this.valorFrete = parseFloat(response.data.cotacao.totalFrete._text).toLocaleString('pt-br', {style: 'currency', currency:'BRL'});
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação")
             })
 
         },
+        voltar: function(){
+            this.showResponseScreem = false;
+        }
 
     },
 

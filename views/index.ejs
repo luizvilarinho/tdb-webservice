@@ -3,39 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TDB web server</title>
+    
+    <title>TDB web service</title>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/tdb-styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/jquery-2.1.0.min.js.download"></script>
 </head>
 <body>
 
    <div id="app" class="main">
-       <input type="text" placeholder="dominio" v-model="dominio">
-       <input type="text" placeholder="cnpjPagador" v-model="cnpjPagador">
-       <input type="text" placeholder="cepOrigem" v-model="cepOrigem">
-       <input type="text" placeholder="cepDestino" v-model="cepDestino">
-       <input type="number" placeholder="valorNF" v-model="valorNF">
-       <input type="number" placeholder="quantidade" v-model="quantidade">
-       <input type="number" placeholder="peso" v-model="peso">
-       <input type="number" placeholder="volume" v-model="volume">
-       <input type="text" placeholder="cnpjDestinatario" v-model="cnpjDestinatario">
+    <transition name="slide-fade">
 
-       <button @click="cotar()">CLICK</button>
+        <section id="cotacao" v-if="showResponseScreem == false">
+            <form action="">
+                <div class="container tdb-md-pad">
+                    <header class="row">
+                        <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Realizar Cotacão</h2>
+                    </header>
+    
+                    <article class="tdb-md-mar--bottom">
+                        <div class="row">
+                            <h4 class="col-sm-12 col-md-12">Dados de acesso</h4>
+                        </div>
+                        
+                        <!--
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>Login</label>
+                                <input type="text" name="login" data-validations="[required, minDigit-8]" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>Senha</label>
+                                <input type="password" name="senha" data-validations="[required, minDigit-6]" />
+                            </div>
+                            
+                            
+                        </div>
+                        -->
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>CNPJ pagador</label>
+                                <input type="text" v-model="cnpjPagador" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>CNPJ do destinatário</label>
+                                <input type="text" v-model="cnpjDestinatario" />
+                            </div>
+    
+                            <!-- <div class="col-xs-12 col-md-3">
+                                <label>Senha Pagador</label>
+                                <input type="password" name="senhaPagador" />
+                            </div> -->
+                        </div>
+                    </article>
+    
+                    <article class="tdb-md-mar--bottom">
+                        <div class="row">
+                            <h4 class="col-sm-12 col-md-12">Dados para cotação</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>Cep de origem</label>
+                                <input type="text" v-model="cepOrigem" class="cepMask" maxlength="9" data-validations="[required, minDigit-9]" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>CEP destino</label>
+                                <input type="text" v-model="cepDestino" maxlength="9" class="cepMask" data-validations="[required, minDigit-9]" />
+                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>Quantidade</label>
+                                <input type="number" v-model="quantidade" value="0" min="0" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>Valor nota fiscal</label>
+                                <input type="text" class="maskMoney" v-model="valorNF" value="0" min="0" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>Peso</label>
+                                <input type="number" v-model="peso" value="0" min="0" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>Volume</label>
+                                <input type="text" v-model="volume" />
+                            </div>
+                        </div>
+                    </article>
+    
+                    <article class="tdb-md-mar--bottom">
+                        <!-- <div class="row">
+                            <h4 class="col-sm-12 col-md-12">Dados Adicionais</h4>
+                        </div> -->
+                        <div class="row">
+                            <!-- <div class="col-xs-12 col-md-3">
+                                <label>cnpj do Remetente</label>
+                                <input type="text" name="cnpjRemetente" />
+                            </div> -->
+                            <!-- <div class="col-xs-12 col-md-3">
+                                <label>CNPJ do destinatário</label>
+                                <input type="text" v-model="cnpjDestinatario" />
+                            </div> -->
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>Observação</label>
+                                <textarea type="text" name="observacao"></textarea>
+                            </div>
+                        </div> -->
+                    </article>
+    
+                    <section>
+                        <div class="row">
+                            <a href="javascript:;" class="btn btn-primary" @click="cotar()">Cotar</a>
+                        </div>
+                    </section>
+                </div>
+            </form>
+        </section>
+    </transition>
 
-       <br/>
-       <br/>
-       <div v-if = "retornoCotacao != null">
-           
-           {{ retornoCotacao }}
-                <br /><br /><br /><br />
-              {{ retornoCotacao.cotacao.pesoCalculo._text }}
-       </div>
-       <div v-else>
-           Nenhum dado para exibir
-       </div>
+    <transition name="slide-fade">
+        <section id="responseContacao" v-if="showResponseScreem">
+            <div class="container tdb-md-pad">
+                <header class="row">
+                    <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Resultado</h2>
+                </header>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                        <h4 class="col-sm-12 col-md-12">Valor Frete</h4>
+                        <h5 class="col-sm-12 col-md-12 color-purple">{{ valorFrete }}</h5>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <h4 class="col-sm-12 col-md-12">Prazo</h4>
+                        <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
+                    </div>
+                </div>
+                <div class="row tdb-xl-mar--top">
+                    <a href="javascript:;" class="btn btn-primary" @click="voltar()">nova cotação</a>
+                </div>
+            </section>
+    
+            </div>
+        </section>
+    </transition>
    </div> 
     
 <script src="/script_views.js"></script>
+<script src="/formValidations.js"></script>
+
 </body>
 </html>
 

@@ -1,0 +1,313 @@
+*{
+  box-sizing: border-box;
+  outline: none;
+}
+
+}#header .logoTop{
+  float: left;
+}
+#company p, #history p, #services p, #activity p, #structure p{
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+#activity a{
+  margin-top: 15px;
+  display: inline-block;
+}
+#activity a::after{
+  content: "  >"
+}
+section #iframe:visible {
+  background-color: red;
+}
+#structure p{
+  text-align: justify;
+}
+#contact-us i{
+  vertical-align: middle;
+  color:#69208a;
+}
+#contact-us a{
+  text-decoration: none;
+  color:#888;
+}
+#contact-us h4{
+  margin-bottom: 20px;
+}
+#testimonials .testimonial-content p{
+  text-align: justify;
+  font-size: 0.8em;
+  line-height: normal;
+}
+#testimonials .testimonial-content h4{
+  text-align: center;
+}
+#areaAtendida{
+  display: none;
+}
+#solicitarColeta{
+  display: none;
+}
+#solicitarColeta h4{
+  margin-left:30px;
+}
+.activity-area{
+  width: 100%;
+  height: auto;
+  margin-bottom: 40px;
+  background-image: url(../assets/images/mapa_03.png);
+  background-size: 600px;
+  background-repeat: no-repeat;
+  background-position: right 50%;
+}
+.ancor-pad{
+  padding-top: 100px;
+}
+.mar-top-activity-services{
+  margin-top: 125px;
+}
+.no-mar-top-activity-services{
+  margin-top: 0px;
+}
+.tdb-md-pad-top-bottom{
+  padding:40px 0px 40px 0px;
+}
+.btn-tdb{
+  /*background-color: #00933aff;*/
+  background-color: #69208a;
+
+  color: white;
+  padding: 10px;
+}
+.backGroundBox{
+  background-color: rgba(256,256,256,.8);
+  padding: 25px;
+}
+.backGroundBox p{
+  color: black;
+}
+.blackCanvas{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  background-color: rgba(0,0,0,0.8);
+  display: none;
+}
+.modalContainer{
+  background-color: white;
+  z-index: 550;
+  margin: 0 auto;
+  margin-top: 2rem;
+  width: 70rem;
+  height: auto;
+  overflow: hidden;
+}
+#containerRastreamento{
+  padding: 2rem;
+}
+#containerRastreamento .mar--bottom{
+  margin-bottom: 4rem;
+}
+#testimonials_container{
+  overflow: hidden;
+  width: 100%;
+}
+.testimonial__itens_wrap{
+  width: 200%;
+  position: relative;
+  left:0;
+}
+.cardsRollRight{
+  animation-name: cardsrollR;
+  animation-duration: 2s;
+}
+.cardsRollLeft{
+  animation-name: cardsrollL;
+  animation-duration: 2s;
+}
+
+@keyframes cardsrollR {
+
+  100% {left:280px}
+}
+.testimonial-content{
+  width: 280px;
+  display: inline-block;
+  padding: 15px;
+  float: left;
+}
+.testimonial-content h4{
+  color:#69208a;
+}
+#depoimentosControllers{
+  display: flex;
+  justify-content: center;
+}
+#depoimentosControllers div{
+  width:2rem;
+  height:1rem;
+  text-align: center;
+  background-color:#69208a;
+  margin: 1rem;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  cursor: pointer;
+}
+#depoimentosControllers div:active{
+  background-color:#c1c1c1;
+}
+.activity__iframe{
+  width: 100%;
+  height: 20rem;
+}
+.solicitar-coleta__iframe{
+  width: 100%;
+  height: 18rem;
+}
+.cotacao__iframe{
+  width: 100%;
+  height: 100%;
+}
+#solicitarCotacao{
+  height: calc(100vh - 50px);
+}
+#rastrear-carga .rastreamento{
+  margin:0;
+}
+#rastrear-carga textarea{
+  height: 100px;
+}
+#solicitarCotacao label , input{
+  display: block;
+}
+#rastreamento-pagador label, #rastreamento-remetente label, #remetente-destinatario label{
+  width:100%;
+}
+.videos__video-container{
+  padding: 30px 0;
+}
+.videos__title{
+  padding: 5px 0px;
+}
+.videos__description{
+  padding: 5px 0px;
+  color:#6a6a6a;
+}
+.tdb-hidden{
+  display: none;
+}
+.tdb-md-pad{
+  padding: 25px;
+}
+.closeModal{
+  padding: 25px 25px 0 25px;
+  text-align: right;
+  width:100%;
+  float: right;
+  cursor: pointer;
+}
+.tdb-md-mar--bottom{
+  margin-bottom:25px;
+}
+.tdb-md-mar--left{
+  margin-left:25px;
+}
+.tdb-xl-mar--left{
+  margin-left:45px;
+}
+.tdb-xl-mar--top{
+  margin-top:45px;
+}
+.tdb-sm-mar--top{
+  margin-top:15px;
+}
+
+.goRight span::before{
+  content: ">";
+  color: white;
+}
+.goLeft span::before{
+  content: "<";
+  color: white;
+}
+.inblock{
+  display:inline-block;
+}
+.w100{
+  width:100%;
+}
+#cotacao div{
+  margin-bottom:10px;
+}
+#cotacao article{
+  margin-bottom:25px;
+}
+#cotacao input{
+  width:100%;
+}
+#cotacao a, #responseContacao a{
+  background-color: #69208a;
+  border: 0;
+  outline: none;
+  margin-bottom:45px;
+}
+.alertError{
+  background-color: coral;
+  text-align: left;
+  padding: 5px 10px 5px 10px
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.color-purple{
+  color:#69208a;
+}
+#responseContacao{
+  text-align: center;
+}
+#responseContacao a{
+  margin: 0 auto;
+}
+
+@media(max-width: 992px ){
+  .welcome-area .header-text h1{
+    font-size:45px;
+  }
+  .welcome-area{
+    background-size: cover;
+    background-position: center;
+  }
+  .backGroundBox{
+    left: 12px;
+  }
+  .welcome-area .header-text{
+
+    padding-top: 40%;
+  }
+  .activity-area{
+    background-image:none;
+  }
+  .header-area .main-nav .nav{
+    float: left;
+  }
+  .header-area{
+    background-color: white;
+  }
+  .tdb-hidden{
+    display:none;
+  }
+}
