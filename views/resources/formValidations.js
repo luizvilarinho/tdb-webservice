@@ -44,7 +44,6 @@ function alertError(element, mensagem){
 }
 
 function required(element){
-    console.log("exec required");
     if(element.value == ''){
         alertError(element, "Esse campo não pode estar vazio");
         alertOn = true;
@@ -53,10 +52,8 @@ function required(element){
 }
 
 function minDigit(element, number){
-    console.log("entrou");
     if(element.value.length < number){
         alertError(element, "O campo deve ter ao menos " + number + " digitos");
-        
     }
 }
 
@@ -85,17 +82,18 @@ function validar(){
                             break;
 
                         case 'minDigit':
-                            console.log("validationNumber", validationNumber) 
                             minDigit(ipt, validationNumber);
                             break;
                     }
                 }
             }
         }
-    })    
+    })
+    
+    return alertOn;
 }
 
-window.onload=function(){
+function validationInit(){
     $(".maskMoney").maskMoney({
         prefix: "R$ ",
         decimal: ",",
@@ -106,14 +104,11 @@ window.onload=function(){
 
     for(var idxCep=0; idxCep<cepMasks.length; idxCep++){
         cepMasks[idxCep].onkeyup=function(){
-            console.log(this.value);
             
             var cepDigitado = this.value.replace(/[^0-9]/g, "");
             if(cepDigitado.length > 5){
                 var a= cepDigitado.slice(0,5);
-                console.log("a", a);
                 var b=cepDigitado.slice(5);
-                console.log("b", b);
                 this.value = a + "-" + b;
                 return false;
             }
@@ -123,6 +118,9 @@ window.onload=function(){
         }
     }
 
-
+}
+window.onload=function(){
+    
+    validationInit();
 
 }

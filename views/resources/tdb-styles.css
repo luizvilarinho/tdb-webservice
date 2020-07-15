@@ -2,8 +2,7 @@
   box-sizing: border-box;
   outline: none;
 }
-
-}#header .logoTop{
+#header .logoTop{
   float: left;
 }
 #company p, #history p, #services p, #activity p, #structure p{
@@ -138,7 +137,7 @@ section #iframe:visible {
   width: 280px;
   display: inline-block;
   padding: 15px;
-  float: left;
+  /*float: left;*/
 }
 .testimonial-content h4{
   color:#69208a;
@@ -255,6 +254,10 @@ section #iframe:visible {
   border: 0;
   outline: none;
   margin-bottom:45px;
+  border-radius: 0;
+}
+#cotacao h4{
+  margin-top:40px;
 }
 .alertError{
   background-color: coral;
@@ -281,6 +284,23 @@ section #iframe:visible {
 }
 #responseContacao a{
   margin: 0 auto;
+}
+#btn-calcular-cubagem{
+  margin-top: 28px;
+  background-color:#69208a;
+  color:white;
+  border:0;
+  padding: 8px;
+  text-decoration: none;
+  display:block;
+  margin-bottom: 0;
+  text-align: center;
+}
+a#btn-calcular-cubagem{
+  margin-bottom:0;
+}
+#btn-calcular-cubagem:active{
+  background-color:#77458f;
 }
 
 @media(max-width: 992px ){

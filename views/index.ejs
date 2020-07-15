@@ -29,29 +29,24 @@
                             <h4 class="col-sm-12 col-md-12">Dados de acesso</h4>
                         </div>
                         
-                        <!--
                         <div class="row">
                             <div class="col-xs-12 col-md-3">
                                 <label>Login</label>
-                                <input type="text" name="login" data-validations="[required, minDigit-8]" />
+                                <input type="text" v-model="login" data-validations="[required, minDigit-8]" />
                             </div>
                             <div class="col-xs-12 col-md-3">
                                 <label>Senha</label>
-                                <input type="password" name="senha" data-validations="[required, minDigit-6]" />
+                                <input type="password" v-model="senha" data-validations="[required, minDigit-6]" />
                             </div>
                             
                             
                         </div>
-                        -->
                         <div class="row">
                             <div class="col-xs-12 col-md-3">
                                 <label>CNPJ pagador</label>
                                 <input type="text" v-model="cnpjPagador" />
                             </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label>CNPJ do destinatário</label>
-                                <input type="text" v-model="cnpjDestinatario" />
-                            </div>
+                            
     
                             <!-- <div class="col-xs-12 col-md-3">
                                 <label>Senha Pagador</label>
@@ -67,31 +62,71 @@
                         <div class="row">
                             <div class="col-xs-12 col-md-3">
                                 <label>Cep de origem</label>
-                                <input type="text" v-model="cepOrigem" class="cepMask" maxlength="9" data-validations="[required, minDigit-9]" />
+                                <input type="text" v-model="cepOrigem" class="cepMask" maxlength="9" data-validations="[required, minDigit-9]" @change="buscarCidade('origem')" />
                             </div>
                             <div class="col-xs-12 col-md-3">
-                                <label>CEP destino</label>
-                                <input type="text" v-model="cepDestino" maxlength="9" class="cepMask" data-validations="[required, minDigit-9]" />
-                
+                                <label>Cidade Origem</label>
+                                <input type="text" v-model="cidadeCepOrigem" class="" maxlength="9" data-validations="[required, minDigit-9]" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-3">
-                                <label>Quantidade</label>
-                                <input type="number" v-model="quantidade" value="0" min="0" />
+                                <label>CEP destino</label>
+                                <input type="text" v-model="cepDestino" maxlength="9" class="cepMask" data-validations="[required, minDigit-9]" @change="buscarCidade('destino')" />
+                            </div>
+                            <div class="col-xs-12 col-md-3">
+                                <label>Cidade Destino</label>
+                                <input type="text" v-model="cidadeCepDestino" maxlength="9" class="" data-validations="[required, minDigit-9]"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>CNPJ do destinatário</label>
+                                <input type="text" v-model="cnpjDestinatario" data-validations="[required]" />
                             </div>
                             <div class="col-xs-12 col-md-3">
                                 <label>Valor nota fiscal</label>
-                                <input type="text" class="maskMoney" v-model="valorNF" value="0" min="0" />
+                                <input type="text" class="maskMoney" name="valorNF" data-validations="[required]" />
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <h4 class="col-sm-12 col-md-12">Calcular Cubagem</h4>
+                        </div>
+
+                        <div class="row">
                             <div class="col-xs-12 col-md-3">
-                                <label>Peso</label>
-                                <input type="number" v-model="peso" value="0" min="0" />
+                                <label>Quantidade de volumes</label>
+                                <input type="number" v-model="quantidade" value="0" min="0" data-validations="[required]" @change="limparCampoVolume()" />
                             </div>
+                            
                             <div class="col-xs-12 col-md-3">
-                                <label>Volume</label>
-                                <input type="text" v-model="volume" />
+                                <label>Peso (cada ítem)</label>
+                                <input type="number" v-model="peso" value="0" min="0" data-validations="[required]" />
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-3">
+                                <label>Altura (cm)</label>
+                                <input type="text" v-model="altura" @change="limparCampoVolume()" data-validations="[required]" />
+                            </div> 
+                            <div class="col-xs-12 col-md-3">
+                                <label>Largura (cm)</label>
+                                <input type="text" v-model="largura" @change="limparCampoVolume()" data-validations="[required]" />
+                            </div> 
+                            <div class="col-xs-12 col-md-3">
+                                <label>Profundidade (cm)</label>
+                                <input type="text" v-model="profundidade" @change="limparCampoVolume()" data-validations="[required]" />
+                            </div> 
+                            <div class="col-xs-12 col-md-3">
+                                <a href="javascript:;" id="btn-calcular-cubagem" @click="calcularCubagem()">Calcular Cubagem</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-2">
+                                <label>Volume (cm3)</label>
+                                <input type="text" v-model="volume" data-validations="[required]" readonly />
+                            </div> 
                         </div>
                     </article>
     
@@ -138,8 +173,12 @@
                         <h4 class="col-sm-12 col-md-12">Valor Frete</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ valorFrete }}</h5>
                     </div>
+                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                        <h4 class="col-sm-12 col-md-12">Peso Calculo</h4>
+                        <h5 class="col-sm-12 col-md-12 color-purple">{{ pesoCalculo }}</h5>
+                    </div>
                     <div class="col-sm-12 col-md-12">
-                        <h4 class="col-sm-12 col-md-12">Prazo</h4>
+                        <h4 class="col-sm-12 col-md-12">Prazo previsto</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
                     </div>
                 </div>
@@ -149,6 +188,7 @@
             </section>
     
             </div>
+            
         </section>
     </transition>
    </div> 
