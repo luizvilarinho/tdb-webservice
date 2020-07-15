@@ -7,6 +7,27 @@ var app = new Vue({
         pesoCalculo:0,
         valorFrete:"",
         dominio:"TDD",
+        login:"",
+        senha:"",
+        cnpjPagador:"",
+        cepOrigem:"",
+        cepDestino:"",
+        quantidade:"",
+        peso:"",
+        volume:"",
+        cnpjDestinatario:"",
+        altura:"",
+        largura:"",
+        profundidade:"",
+        cidadeCepOrigem:"",
+        cidadeCepDestino:""
+        /*
+        showResponseScreem: false,
+        retornoCotacao:null,
+        prazo:0,
+        pesoCalculo:0,
+        valorFrete:"",
+        dominio:"TDD",
         login:"wservice",
         senha:"wservice",
         cnpjPagador:"63004030005740",
@@ -21,6 +42,7 @@ var app = new Vue({
         profundidade:"",
         cidadeCepOrigem:"",
         cidadeCepDestino:""
+        */
     },
     methods: {
         cotar: function () {
