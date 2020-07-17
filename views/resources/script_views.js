@@ -2,6 +2,14 @@ var app = new Vue({
     el: '#app',
     data: {
         showResponseScreem: false,
+        showHide:{
+            showdadosAcessos:true,
+            showDadosPessoais:true,
+            showEnderecoColeta:true,
+            showCubagem: false
+        },
+        qntLinhasCubagem:0,
+        desabilitarVolume:false,
         retornoCotacao:null,
         prazo:0,
         pesoCalculo:0,
@@ -119,12 +127,21 @@ var app = new Vue({
             this.showResponseScreem = false;
             setTimeout(validationInit, 1000);
         },
+        abrirBlocoCubagem: function(){
+            this.quantidade = 0;
+            this.volume = 0;
+            this.showHide.showCubagem = !this.showHide.showCubagem;
+
+        },
         calcularCubagem: function(){
-            if(this.quantidade == ''){
-                alert("Preencha a quantidade de volumes para calcular a cubagem");
-                return false;
-            }
-            this.volume = (this.altura * this.largura * this.profundidade) * this.quantidade;
+           
+
+        },
+        adicionarLinha: function(){
+            this.qntLinhasCubagem++;
+        },
+        deletarLinha: function(n){
+            this.$refs['line'][n-1].remove();
         },
         limparCampoVolume:function(){
             this.volume = "";
