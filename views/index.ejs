@@ -151,19 +151,19 @@
                                 <div  class="row linha-calculo__cubagem">
                                     <div class="col-xs-12 col-md-2">
                                         <label>Altura (cm)</label>
-                                        <input type="number" min="0" ref="altura" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Largura (cm)</label>
-                                        <input type="number" min="0" ref="largura" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Profundidade (cm)</label>
-                                        <input type="number" min="0" ref="profundidade" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Quantidade</label>
-                                        <input type="number" min="0" ref="quantidade" min="0" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
                                     </div>
                                     <div class="col-xs-12 col-md-3">
                                         <a href="javascript:;" id="btn-adicionar-linha" @click="adicionarLinha()">Adicionar linha</a>
@@ -172,19 +172,19 @@
                                 <div v-for="n in qntLinhasCubagem" class="row linha-calculo__cubagem" v-bind:data-index="n" ref="line">
                                     <div class="col-xs-12 col-md-2">
                                         <label>Altura (cm)</label>
-                                        <input type="number" min="0" ref="altura" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Largura (cm)</label>
-                                        <input type="number" min="0" ref="largura" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Profundidade (cm)</label>
-                                        <input type="number" min="0" ref="profundidade" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
                                     </div> 
                                     <div class="col-xs-12 col-md-2">
                                         <label>Quantidade</label>
-                                        <input type="number" min="0" ref="quantidade" value="0" min="0" data-validations="[required]" />
+                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
                                     </div>
                                     <div class="col-xs-12 col-md-3">
                                         <a href="javascript:;" id="btn-deletar-linha" @click="deletarLinha(n)">remover</a>
@@ -196,6 +196,12 @@
                                         <a href="javascript:;" id="btn-calcular-cubagem" @click="calcularCubagem()">Calcular</a>
                                     </div>
                                 </div>
+                                    <div class="row volumeCalculado__container"  style="display:none">
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Volume (cm3)</label>
+                                            <input type="number" min="0" v-model="volumeCalculado" readonly data-validations="[required]"  />
+                                        </div> 
+                                    </div>
                                 
                             </div>
                         </transition>

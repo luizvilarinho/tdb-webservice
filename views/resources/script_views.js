@@ -6,8 +6,10 @@ var app = new Vue({
             showdadosAcessos:true,
             showDadosPessoais:true,
             showEnderecoColeta:true,
-            showCubagem: false
+            showCubagem: false,
+            showCalculoVolume:false
         },
+        volumeCalculado:0,
         qntLinhasCubagem:0,
         desabilitarVolume:false,
         retornoCotacao:null,
@@ -134,17 +136,38 @@ var app = new Vue({
 
         },
         calcularCubagem: function(){
-           
+            var resultado = 0;
+            $(".linha-calculo__cubagem").each(function(){
+                var altura = parseFloat($(this).find(".altura").val());
+                var largura = parseFloat($(this).find(".largura").val());
+                var profundidade = parseFloat($(this).find(".profundidade").val());
+                var quantidade = parseFloat($(this).find(".quantidade").val());
 
+                resultado = resultado + (altura * largura * profundidade * quantidade);
+            });
+
+            console.log("resultado", resultado);
+            this.volumeCalculado = resultado;
+            this.showHide.showCalculoVolume = true;
+            $(".volumeCalculado__container").show(300);
         },
         adicionarLinha: function(){
             this.qntLinhasCubagem++;
         },
         deletarLinha: function(n){
             this.$refs['line'][n-1].remove();
+            this.calcularCubagem();
         },
         limparCampoVolume:function(){
             this.volume = "";
+        },
+        zerarCampoVolumeCubagem: function(){
+            if($(".volumeCalculado__container").find("input").val() == 0 ){
+                return false;
+            }
+
+            this.volumeCalculado = 0;
+            $(".volumeCalculado__container").hide(300);
         }
 
 

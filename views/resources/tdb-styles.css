@@ -2,6 +2,9 @@
   box-sizing: border-box;
   outline: none;
 }
+input{
+  padding-left: 10px;
+}
 #header .logoTop{
   float: left;
 }
