@@ -9,74 +9,85 @@ var app = new Vue({
             showCubagem: false,
             showCalculoVolume:false
         },
-        volumeCalculado:0,
+        formParams:{
+            cnpjPagador:"63004030005740",
+            senhaPagador:"cec63",
+            nome:"Luiz",
+            email:"luiz@gmial.com",
+            telefone:"(11)98221-4786",
+            celular:"(11)98221-4786",
+            cifFob:"",
+            cnpjPagadorOrigem:"63004030005740",
+            cepOrigem:"07031000",
+            enderecoCepOrigem:"",
+            numeroCepOrigem:"",
+            complementoCepOrigem:"",
+            bairroCepOrigem:"",
+            cidadeCepOrigem:"",
+            estadoCepOrigem:"",
+            quantidade:"2",
+            peso:"31,12",
+            volume:"0,04",
+            dominio:"TDD",
+            cepDestinatario:"01415001",
+            cnpjDestinatario:"00001837825181",
+            enderecoDestinatario:"",
+            numeroDestinatario:"321",
+            complementoDestinatario:"",
+            bairroDestinatario:"",
+            cidadeDestinatario:"",
+            estadoDestinatario:"",
+            volumeCalculado:"",
+            quantidadeCubagem:""
+        },
+        paramsColeta:{
+            token:"",
+            cotacao:"",
+            limiteColeta:"",
+            solicitante:""
+        },
+        prazo:0,
         qntLinhasCubagem:0,
         desabilitarVolume:false,
-        retornoCotacao:null,
-        prazo:0,
-        pesoCalculo:0,
-        valorFrete:"",
-        dominio:"TDD",
-        login:"",
-        senha:"",
-        cnpjPagador:"",
-        cepOrigem:"",
-        cepDestino:"",
-        quantidade:"",
-        peso:"",
-        volume:"",
-        cnpjDestinatario:"",
-        altura:"",
-        largura:"",
-        profundidade:"",
-        cidadeCepOrigem:"",
-        cidadeCepDestino:""
-        /*
-        showResponseScreem: false,
-        retornoCotacao:null,
-        prazo:0,
-        pesoCalculo:0,
-        valorFrete:"",
-        dominio:"TDD",
-        login:"wservice",
-        senha:"wservice",
-        cnpjPagador:"63004030005740",
-        cepOrigem:"07031-000",
-        cepDestino:"01415-001",
-        quantidade:"",
-        peso:"",
-        volume:"",
-        cnpjDestinatario:"00001837825181",
-        altura:"",
-        largura:"",
-        profundidade:"",
-        cidadeCepOrigem:"",
-        cidadeCepDestino:""
-        */
+        retornoCotacao:null,               
     },
     methods: {
         cotar: function () {
             validar();
             if($(".alertError").is(":visible")){
+                console.log("error");
                 return false;
+            }
+
+            var volume = 0;
+            var quantidade = 0;
+
+            if(this.showHide.showCubagem){
+                volume = this.formParams.volumeCalculado / 1000000;
+                quantidade = this.formParams.quantidadeCubagem;
+                
+            }else{
+                volume = this.formParams.volume / 1000000;
+                quantidade = this.formParams.quantidade;
             }
             
             axios(
                 {
                     method: 'post',
-                    url: `/tdbwebservice/v1/cotacao`,
+                    url: `/tdbwebservice/v1/cotacao/`,
                     data: {
-                            "dominio": "TDD",
-                            "login": this.login,
-                            "senha": this.senha,
-                            "cnpjPagador": this.cnpjPagador,
-                            "cepOrigem": this.cepOrigem.replace("-", ""),
-                            "cepDestino": this.cepDestino.replace("-", ""),
-                            "valorNF": $(".maskMoney").val().replace(/[^0-9,]/g, "").replace(",", "."),
-                            "quantidade": this.quantidade,
-                            "peso": this.peso,
-                            "volume": this.volume / 1000000,
-                            "cnpjDestinatario": this.cnpjDestinatario
+                        "dominio": "TDD",
+                        "cnpjPagador": this.formParams.cnpjPagador,
+                        "senhaPagador":this.formParams.senhaPagador,
+                        "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
+                        "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
+                        "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
+                        "quantidade": quantidade,
+                        "peso": this.formParams.peso,
+                        "volume": volume,
+                        "cnpjDestinatario": this.formParams.cnpjDestinatario,
+                        "ciffob":this.formParams.cifFob,
+                        "cnpjRemetente":this.formParams.cnpjPagador
                     }
                 }
             ).then((response) => {
@@ -84,8 +95,8 @@ var app = new Vue({
                 this.retornoCotacao = response.data;
                 this.showResponseScreem = true;
                 this.prazo = response.data.prazo;
-                this.pesoCalculo = response.data.pesoCalculo;
-                this.valorFrete = parseFloat(response.data.valorFrete).toLocaleString('pt-br', {style: 'currency', currency:'BRL'});
+                this.valorFrete = parseFloat(response.data.valorFrete.replace(",",".")).toLocaleString('pt-br', {style: 'currency', currency:'BRL'});
+                this.paramsColeta.token = response.data.token;
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação");
             })
@@ -95,31 +106,35 @@ var app = new Vue({
             var cep = "";
             console.log("buscarCidade");
             if(tipoCep == 'origem'){
-                this.cidadeCepOrigem = "...";
-                cep = this.cepOrigem.replace("-", "").trim();
+                this.formParams.enderecoCepOrigem = "...";
+                cep = this.formParams.cepOrigem.replace("-", "").trim();
             }else{
-                this.cidadeCepDestino = "...";
-                cep = this.cepDestino.replace("-", "").trim();
+                this.formParams.enderecoDestinatario = "...";
+                cep = this.formParams.cepDestinatario.replace("-", "").trim();
             }
+
+            console.log("CEP", cep);
 
             axios(
                 {
-                    method: 'post',
-                    url: `/tdbwebservice/v1/getcidade`,
-                    data: {
-                        "dominio": "TDD",
-                        "login": this.login,
-                        "senha": this.senha,
-                        "cep": cep,
-                    }
+                    method: 'get',
+                    url: `/tdbwebservice/v1/buscaCep/${cep}`,
+                    data: {}
                 }
             ).then((response) => {
-                console.log("response", response);
+                console.log("response", response.data);
                 if(tipoCep == 'origem'){
-                    this.cidadeCepOrigem = response.data.nomeCidade;
+                    this.formParams.enderecoCepOrigem = response.data.rua;
+                    this.formParams.bairroCepOrigem = response.data.bairro;
+                    this.formParams.cidadeCepOrigem = response.data.cidade;
+                    this.formParams.estadoCepOrigem = response.data.estado;
                 }else{
-                    this.cidadeCepDestino = response.data.nomeCidade;
+                    this.formParams.enderecoDestinatario = response.data.rua;
+                    this.formParams.bairroDestinatario = response.data.bairro;
+                    this.formParams.cidadeDestinatario = response.data.cidade;
+                    this.formParams.estadoDestinatario = response.data.estado;
                 }
+                
                 
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação");
@@ -130,9 +145,10 @@ var app = new Vue({
             setTimeout(validationInit, 1000);
         },
         abrirBlocoCubagem: function(){
-            this.quantidade = 0;
-            this.volume = 0;
+            this.formParams.quantidade = 0;
+            this.formParams.volume = 0;
             this.showHide.showCubagem = !this.showHide.showCubagem;
+            this.zerarCampoVolumeCubagem();
 
         },
         calcularCubagem: function(){
@@ -146,8 +162,17 @@ var app = new Vue({
                 resultado = resultado + (altura * largura * profundidade * quantidade);
             });
 
+            var qntProduto = 0;
+            $(".quantidade").each(function(){
+                var qnt =parseFloat($(this).val());
+                qntProduto = qntProduto + qnt;
+            })
+
+            this.formParams.quantidadeCubagem = qntProduto;
+
+            console.log("QUANTIDADE", this.formParams.quantidadeCubagem);
             console.log("resultado", resultado);
-            this.volumeCalculado = resultado;
+            this.formParams.volumeCalculado = resultado;
             this.showHide.showCalculoVolume = true;
             $(".volumeCalculado__container").show(300);
         },
@@ -166,11 +191,29 @@ var app = new Vue({
                 return false;
             }
 
-            this.volumeCalculado = 0;
+            this.formParams.volumeCalculado = 0;
             $(".volumeCalculado__container").hide(300);
+        },
+        //TODO
+        realizarColeta:function(){
+            axios(
+                {
+                    method: 'post',
+                    url: `/tdbwebservice/v1/coleta`,
+                    data: {
+                        cotacao:this.paramsColeta.cotacao,
+                        limiteColeta:this.paramsColeta.limiteColeta,
+                        token:this.paramsColeta.token,
+                        solicitante:this.paramsColeta.solicitante
+                    }
+                }
+            ).then((responseColeta) => {
+                console.log("response", responseColeta.data);
+                                
+            }).catch(error => {
+                alert("houve um problema ao tentar realizar a operação");
+            })
         }
-
-
     },
 
 })

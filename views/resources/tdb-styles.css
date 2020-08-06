@@ -318,12 +318,20 @@ a#btn-adicionar-linha::after{
   content: ">";
   margin-left:10px;
   color:#69208a;
-}  
-
-
+}
 #container__calcular-cubagem{
   background-color: #ab90b8;
   padding: 40px 40px 30px 40px;
+}
+.btns-result__container{
+  width: 260px;
+  margin: 0 auto;
+  margin-top: 45px;
+}
+#responseContacao a.btn-secundary{
+  color:#69208a;
+  background-color: unset;
+  border:1px solid #69208a;
 }
 @media(max-width: 992px ){
   .welcome-area .header-text h1{

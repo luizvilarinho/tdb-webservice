@@ -44,6 +44,10 @@ function alertError(element, mensagem){
 }
 
 function required(element){
+    if(element.style.display == 'none'){
+        return false;
+    }
+    
     if(element.value == ''){
         alertError(element, "Esse campo não pode estar vazio");
         alertOn = true;
@@ -65,7 +69,7 @@ function validar(){
         }) 
     }
    
-    document.querySelectorAll("input").forEach(function(ipt){
+    document.querySelectorAll("input, select").forEach(function(ipt){
         alertOn = false;
 
         if(ipt.hasAttribute('data-validations')){
