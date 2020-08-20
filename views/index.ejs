@@ -25,50 +25,20 @@
                         <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Realizar Cotacão</h2>
                     </header>
     
-                    <article id="dados-acesso" class="tdb-md-mar--bottom">
+                    <article id="dados-acesso" v-if="showHide.dadosAcessoShow" class="tdb-md-mar--bottom">
                         <div class="row">
                             <h4 class="col-sm-12 col-md-12">Dados de acesso</h4>
                         </div>
                         
                         <div class="row">
                             <div class="col-xs-12 col-md-3">
-                                <label>CNPJ pagador</label>
+                                <label>CNPJ /CPF</label>
                                 <input type="text" v-model="formParams.cnpjPagador" placeholder="cnpj" />
                             </div>
                             
                             <div class="col-xs-12 col-md-3">
                                 <label>Senha</label>
                                 <input type="password" v-model="formParams.senhaPagador" />
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article id="dados-pessoais" class="tdb-md-mar--bottom">
-                        <div class="row">
-                            <h4 class="col-sm-12 col-md-12">Dados Pessoais</h4>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-3">
-                                <label>Nome Completo</label>
-                                <input type="text" v-model="formParams.nome" class="" data-validations="[required, minDigit-3]" />
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label>cnpj</label>
-                                <input type="text" v-model="formParams.cnpjPagadorOrigem" class="" data-validations="[required, minDigit-3]" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-3">
-                                <label>E-mail</label>
-                                <input type="text" v-model="formParams.email" class="" data-validations="[required, minDigit-3]" />
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label>Telefone</label>
-                                <input type="text" v-model="formParams.telefone" class="telefone" data-validations="[minDigit-12]" />
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label>Celular</label>
-                                <input type="text" v-model="formParams.celular" class="telefone" data-validations="[minDigit-12]" />
                             </div>
                             <div class="col-xs-12 col-md-3">
                                 <label>CIF ou FOB</label>
@@ -79,212 +49,230 @@
                                 </select>
                             </div>
                         </div>
+                            <div class="row">
+                                <a href="javascript:;" class="btn btn-primary" @click="continuar()">Continuar</a>
+                            </div>
                     </article>
-
-                    <article id="endereco-coleta" class="tdb-md-mar--bottom">
-                        <div class="row">
-                            <h4 class="col-sm-12 col-md-12">Endereço de coleta</h4>
-                        </div>
-                        <div class="endereco">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Cep de origem (coleta)</label>
-                                    <input type="text" v-model="formParams.cepOrigem" class="cepMask" maxlength="9" data-validations="[required, minDigit-3]" @change="buscarCidade('origem')" />
+                    
+                    <transition name="slide-fade">
+                        <div id="dados-cotacao" v-if="showHide.dadosAcessoShow==false">
+                            <article id="dados-pessoais" class="tdb-md-mar--bottom">
+                                <div class="row">
+                                    <h4 class="col-sm-12 col-md-12">Dados do contratante</h4>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-5">
-                                    <label>Endereço</label>
-                                    <input type="text" v-model="formParams.enderecoCepOrigem" class="" data-validations="[required, minDigit-3]" />
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    <label>Número</label>
-                                    <input type="number" min="0" v-model="formParams.numeroCepOrigem" class="" data-validations="[required]" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Complemento</label>
-                                    <input type="text" v-model="formParams.complementoCepOrigem" class="" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-4">
-                                    <label>Bairro</label>
-                                    <input type="text" v-model="formParams.bairroCepOrigem" class="" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Cidade</label>
-                                    <input type="text" v-model="formParams.cidadeCepOrigem" class="" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Estado</label>
-                                    <input type="text" v-model="formParams.estadoCepOrigem" class="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-3">
-                                <label>Valor da Carga</label>
-                                <input type="text" name="valorCarga" class="maskMoney" data-validations="[required]" />
-                            </div>
-                            <div class="col-xs-12 col-md-2">
-                                <label>Quantidade</label>
-                                <input type="number" min="0" v-bind:disabled="showHide.showCubagem" type="text" v-model="formParams.quantidade" class="" />
-                            </div>
-                            <div class="col-xs-12 col-md-2">
-                                <label>Peso (KG)</label>
-                                <input type="number" min="0" v-model="formParams.peso" class="" />
-                            </div>
-                        </div>
-                        <div v-show="true" class="row">
-                            <div class="col-xs-12 col-md-2">
-                                <label>Volume (cm3)</label>
-                                <input type="number" min="0" v-bind:disabled="showHide.showCubagem" v-model="formParams.volume" data-validations="[required]"  />
-                            </div> 
-                            <div v-if="!showHide.showCubagem" class="col-xs-12 col-md-3">
-                                <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">Calcular Cubagem</a>
-                            </div>
-                            <div v-else class="col-xs-12 col-md-3">
-                                <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">fechar Cálculo Cubagem</a>
-                            </div>
-                        </div>
-
-                        <transition name="slide-fade">
-                            <div v-show="showHide.showCubagem" id="container__calcular-cubagem" class="">
-                                <div  class="row linha-calculo__cubagem">
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Altura (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Largura (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Profundidade (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Quantidade</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>Razão social / nome</label>
+                                        <input type="text" v-model="formParams.nome" class="" data-validations="[required, minDigit-3]" />
                                     </div>
                                     <div class="col-xs-12 col-md-3">
-                                        <a href="javascript:;" id="btn-adicionar-linha" @click="adicionarLinha()">Adicionar linha</a>
+                                        <label>CNPJ / CPF</label>
+                                        <input type="text" v-model="formParams.cnpjPagadorOrigem" class="" data-validations="[required, minDigit-3]" />
                                     </div>
                                 </div>
-                                <div v-for="n in qntLinhasCubagem" class="row linha-calculo__cubagem" v-bind:data-index="n" ref="line">
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Altura (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Largura (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Profundidade (cm)</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
-                                    </div> 
-                                    <div class="col-xs-12 col-md-2">
-                                        <label>Quantidade</label>
-                                        <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>E-mail</label>
+                                        <input type="text" v-model="formParams.email" class="" data-validations="[required, minDigit-3]" />
                                     </div>
                                     <div class="col-xs-12 col-md-3">
-                                        <a href="javascript:;" id="btn-deletar-linha" @click="deletarLinha(n)">remover</a>
+                                        <label>Telefone</label>
+                                        <input type="text" v-model="formParams.telefone" class="telefone" data-validations="[required, minDigit-12]" />
                                     </div>
-                                </div>
-                                
-                                <div v-show="true" class="row">
                                     <div class="col-xs-12 col-md-3">
-                                        <a href="javascript:;" id="btn-calcular-cubagem" @click="calcularCubagem()">Calcular</a>
+                                        <label>Celular</label>
+                                        <input type="text" v-model="formParams.celular" class="telefone" data-validations="[minDigit-12]" />
                                     </div>
+                                    
                                 </div>
-                                    <div class="row volumeCalculado__container"  style="display:none">
+                            </article>
+        
+                            <article id="endereco-coleta" class="tdb-md-mar--bottom">
+                                <div class="row">
+                                    <h4 class="col-sm-12 col-md-12">Endereço de coleta</h4>
+                                </div>
+                                <div class="endereco">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Cep de origem (coleta)</label>
+                                            <input type="text" v-model="formParams.cepOrigem" class="cepMask" maxlength="9" data-validations="[required, minDigit-3]" @change="buscarCidade('origem')" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-5">
+                                            <label>Endereço</label>
+                                            <input type="text" v-model="formParams.enderecoCepOrigem" class="" data-validations="[required, minDigit-3]" />
+                                        </div>
                                         <div class="col-xs-12 col-md-2">
-                                            <label>Volume (cm3)</label>
-                                            <input type="number" min="0" v-model="formParams.volumeCalculado" readonly data-validations="[required]"  />
-                                        </div> 
+                                            <label>Número</label>
+                                            <input type="number" min="0" v-model="formParams.numeroCepOrigem" class="" data-validations="[required]" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Complemento</label>
+                                            <input type="text" v-model="formParams.complementoCepOrigem" class="" />
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-4">
+                                            <label>Bairro</label>
+                                            <input type="text" v-model="formParams.bairroCepOrigem" class="" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Cidade</label>
+                                            <input type="text" v-model="formParams.cidadeCepOrigem" class="" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Estado</label>
+                                            <input type="text" v-model="formParams.estadoCepOrigem" class="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>Valor da Carga</label>
+                                        <input type="text" name="valorCarga" class="maskMoney" data-validations="[required]" />
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Quantidade</label>
+                                        <input type="number" min="0" v-bind:disabled="showHide.showCubagem" type="text" v-model="formParams.quantidade" class="" />
+                                    </div>
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Peso (KG)</label>
+                                        <input type="number" min="0" v-model="formParams.peso" class="peso" />
+                                    </div>
+                                </div>
+                                <div v-show="true" class="row">
+                                    <div class="col-xs-12 col-md-2">
+                                        <label>Volume (cm3)</label>
+                                        <input type="number" min="0" v-bind:disabled="showHide.showCubagem" v-model="formParams.volume" data-validations="[required]"  />
+                                    </div> 
+                                    <div v-if="!showHide.showCubagem" class="col-xs-12 col-md-3">
+                                        <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">Calcular Cubagem</a>
+                                    </div>
+                                    <div v-else class="col-xs-12 col-md-3">
+                                        <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">fechar Cálculo Cubagem</a>
+                                    </div>
+                                </div>
+        
+                                <transition name="slide-fade">
+                                    <div v-show="showHide.showCubagem" id="container__calcular-cubagem" class="col-xs-12 col-md-12">
+                                        <div  class="row linha-calculo__cubagem">
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Altura (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Largura (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-3">
+                                                <label>Profundidade (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Quantidade</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
+                                            </div>
+                                            <div class="col-xs-12 col-md-3">
+                                                <a href="javascript:;" id="btn-adicionar-linha" @click="adicionarLinha()">Adicionar linha</a>
+                                            </div>
+                                        </div>
+                                        <div v-for="n in qntLinhasCubagem" class="row linha-calculo__cubagem" v-bind:data-index="n" ref="line">
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Altura (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="altura" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Largura (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="largura" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Profundidade (cm)</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="profundidade" data-validations="[required]" />
+                                            </div> 
+                                            <div class="col-xs-12 col-md-2">
+                                                <label>Quantidade</label>
+                                                <input type="number" min="0" @change="zerarCampoVolumeCubagem()" class="quantidade" data-validations="[required]" />
+                                            </div>
+                                            <div class="col-xs-12 col-md-3">
+                                                <a href="javascript:;" id="btn-deletar-linha" @click="deletarLinha(n)">remover</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div v-show="true" class="row">
+                                            <div class="col-xs-12 col-md-3">
+                                                <a href="javascript:;" id="btn-calcular-cubagem" @click="calcularCubagem()">Calcular</a>
+                                            </div>
+                                        </div>
+                                            <div class="row volumeCalculado__container"  style="display:none">
+                                                <div class="col-xs-12 col-md-2">
+                                                    <label>Volume (cm3)</label>
+                                                    <input type="number" min="0" v-model="formParams.volumeCalculado" readonly data-validations="[required]"  />
+                                                </div> 
+                                            </div>
+                                        
+                                    </div>
+                                </transition>
+        
                                 
-                            </div>
+                            </article>
+        
+                            <article class="tdb-md-mar--bottom">
+                                <div class="row">
+                                    <h4 class="col-sm-12 col-md-12">Endereço de entrega</h4>
+                                </div>
+                                <div class="endereco">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>CEP de destino</label>
+                                            <input type="text" v-model="formParams.cepDestinatario" class="cepMask" data-validations="[required, minDigit-3]" @change="buscarCidade('destino')" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>CNPJ / CPF - Destinatário</label>
+                                            <input type="text" v-model="formParams.cnpjDestinatario" data-validations="[required]" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-4">
+                                            <label>Endereço </label>
+                                            <input type="text" v-model="formParams.enderecoDestinatario" data-validations="[required]" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Número </label>
+                                            <input type="number" min="0" v-model="formParams.numeroDestinatario" data-validations="[required]" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-4">
+                                            <label>Complemento </label>
+                                            <input type="text" v-model="formParams.complementoDestinatario" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Bairro </label>
+                                            <input type="text" v-model="formParams.bairroDestinatario" data-validations="[required]" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-3">
+                                            <label>Cidade </label>
+                                            <input type="text" v-model="formParams.cidadeDestinatario" data-validations="[required]" />
+                                        </div>
+                                        <div class="col-xs-12 col-md-2">
+                                            <label>Estado</label>
+                                            <input type="text" v-model="formParams.estadoDestinatario" data-validations="[required]" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+        
+                                
+                            </article>
+            
+                            <section>
+                                <div class="row">
+                                    <a href="javascript:;" class="btn btn-secundary tdb-sm-mar--right" @click="voltar()">voltar</a>
+                                    <a href="javascript:;" class="btn btn-primary" @click="cotar()">Cotar</a>
+                                </div>
+                            </section>
+                        </div>
                         </transition>
-
-                        
-                    </article>
-
-                    <article class="tdb-md-mar--bottom">
-                        <div class="row">
-                            <h4 class="col-sm-12 col-md-12">Endereço de entrega</h4>
-                        </div>
-                        <div class="endereco">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-3">
-                                    <label>CEP de destino</label>
-                                    <input type="text" v-model="formParams.cepDestinatario" class="cepMask" data-validations="[required, minDigit-3]" @change="buscarCidade('destino')" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>CNPJ do destinatário</label>
-                                    <input type="text" v-model="formParams.cnpjDestinatario" data-validations="[required]" />
-                                </div>
-                                <div class="col-xs-12 col-md-4">
-                                    <label>Endereço </label>
-                                    <input type="text" v-model="formParams.enderecoDestinatario" data-validations="[required]" />
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    <label>Número </label>
-                                    <input type="number" min="0" v-model="formParams.numeroDestinatario" data-validations="[required]" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-4">
-                                    <label>Complemento </label>
-                                    <input type="text" v-model="formParams.complementoDestinatario" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Bairro </label>
-                                    <input type="text" v-model="formParams.bairroDestinatario" data-validations="[required]" />
-                                </div>
-                                <div class="col-xs-12 col-md-3">
-                                    <label>Cidade </label>
-                                    <input type="text" v-model="formParams.cidadeDestinatario" data-validations="[required]" />
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    <label>Estado</label>
-                                    <input type="text" v-model="formParams.estadoDestinatario" data-validations="[required]" />
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                        
-                    </article>
-    
-                    <article class="tdb-md-mar--bottom">
-                        <!-- <div class="row">
-                            <h4 class="col-sm-12 col-md-12">Dados Adicionais</h4>
-                        </div> -->
-                        <div class="row">
-                            <!-- <div class="col-xs-12 col-md-3">
-                                <label>cnpj do Remetente</label>
-                                <input type="text" name="cnpjRemetente" />
-                            </div> -->
-                            <!-- <div class="col-xs-12 col-md-3">
-                                <label>CNPJ do destinatário</label>
-                                <input type="text" v-model="formParams.cnpjDestinatario" />
-                            </div> -->
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col-xs-12 col-md-3">
-                                <label>Observação</label>
-                                <textarea type="text" name="observacao"></textarea>
-                            </div>
-                        </div> -->
-                    </article>
-    
-                    <section>
-                        <div class="row">
-                            <a href="javascript:;" class="btn btn-primary" @click="cotar()">Cotar</a>
-                        </div>
-                    </section>
+                    
                 </div>
         </section>
     </transition>
@@ -296,6 +284,10 @@
                     <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Resultado</h2>
                 </header>
                 <div class="row">
+                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                        <h4 class="col-sm-12 col-md-12">Número da cotação</h4>
+                        <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroCotacao }}</h5>
+                    </div>
                     <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
                         <h4 class="col-sm-12 col-md-12">Valor Frete</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ valorFrete }}</h5>

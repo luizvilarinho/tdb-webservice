@@ -43,25 +43,32 @@ cotacaoRouter.post("/", (req, res)=>{
     soap.createClient(url, (err,client) =>{
         if(!err){
             client.getMercadoria(objGetMercadoria, (err, response) =>{
-                var dataGetMercadoria = JSON.parse(convert.xml2json(response.return.$value, {compact: true, spaces: 4}));
-                var numeroMercadoria = dataGetMercadoria.mercadorias.mercadoria.codigo._text;
+                var a= response.return.$value.replace("&", "");
+                var dataGetMercadoria = JSON.parse(convert.xml2json(a, {compact: true, spaces: 4, ignoreAttributes: true}));
+                
+                if(dataGetMercadoria.mercadorias.mercadoria.length > 1){
+                    var numeroMercadoria = dataGetMercadoria.mercadorias.mercadoria[0].codigo._text;
+                }else{
+                    var numeroMercadoria = dataGetMercadoria.mercadorias.mercadoria.codigo._text;
+                }
+                
                 obj.mercadoria = numeroMercadoria;
-
-            
 
             soap.createClient(urlCotacaoColeta, (errCotacaoColeta, clienteCotacaoColeta) =>{
                 if(!errCotacaoColeta){
                     clienteCotacaoColeta.cotarSite(obj, (errCotar, cotacaoResponse) =>{
                         if(!errCotar){
-                            console.log("input", obj);
+                            console.log("INPUT", obj);
+
                             var data = JSON.parse(convert.xml2json(cotacaoResponse.return.$value, {compact: true, spaces: 4}));
-                            console.log("outputServico", data);
+
+                            console.log("OUTPUT", data);
                             data = {
                                 valorFrete:data.cotacao.frete._text,
                                 prazo: data.cotacao.prazo._text,
-                                token: data.cotacao.token._text
+                                token: data.cotacao.token._text,
+                                numeroCotacao: data.cotacao.cotacao._text
                             }
-                            console.log("outputTDBSERVICE",data);
                             res.json(data);
                         }else{
                             console.log("erro ao realizar cotação", errCotar)

@@ -10,11 +10,12 @@ coletaRouter.post("/", (req, res)=>{
         dominio:"TDD",
         login:"wservice",
         senha:"wservice",
-        cotacao:req.body.cotacao, //integer
+        cotacao:req.body.cotacao,
         limiteColeta:req.body.limiteColeta, //dateTime
         token:req.body.token,
         solicitante:req.body.solicitante,
-        observacao:""
+        observacao:"",
+        chaveNFe:"" // string
     }
 
     soap.createClient(urlCotacaoColeta, (error,client) =>{
@@ -25,7 +26,7 @@ coletaRouter.post("/", (req, res)=>{
                     var coletaData = JSON.parse(convert.xml2json(response.return.$value, {compact: true, spaces: 4}));
                     console.log("coletaObject", coletaObject);
                     console.log("coletaData", coletaData);
-                    res.json(coletaData);
+                    res.json(coletaObject);
                 }else{
                     console.log("erro no response do método coletar", responseError);
                 }

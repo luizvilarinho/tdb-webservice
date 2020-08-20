@@ -61,7 +61,8 @@ function minDigit(element, number){
     }
 }
 
-function validar(){
+//scope its a css selector id
+function validar(scope){
     var nodeListAlert = document.querySelectorAll(".alertError");
     if(nodeListAlert.length > 0){
         nodeListAlert.forEach(function(alert){
@@ -69,7 +70,7 @@ function validar(){
         }) 
     }
    
-    document.querySelectorAll("input, select").forEach(function(ipt){
+    document.querySelectorAll(scope + " input, select").forEach(function(ipt){
         alertOn = false;
 
         if(ipt.hasAttribute('data-validations')){

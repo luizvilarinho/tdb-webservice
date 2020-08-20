@@ -75,6 +75,9 @@ section #iframe:visible {
 .tdb-md-pad-top-bottom{
   padding:40px 0px 40px 0px;
 }
+.tdb-sm-mar--right{
+  margin-right: 25px;
+}
 .btn-tdb{
   /*background-color: #00933aff;*/
   background-color: #69208a;
@@ -328,7 +331,7 @@ a#btn-adicionar-linha::after{
   margin: 0 auto;
   margin-top: 45px;
 }
-#responseContacao a.btn-secundary{
+#responseContacao a.btn-secundary, #cotacao a.btn-secundary{
   color:#69208a;
   background-color: unset;
   border:1px solid #69208a;

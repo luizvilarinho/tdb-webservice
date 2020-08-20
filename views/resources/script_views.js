@@ -7,7 +7,8 @@ var app = new Vue({
             showDadosPessoais:true,
             showEnderecoColeta:true,
             showCubagem: false,
-            showCalculoVolume:false
+            showCalculoVolume:false,
+            dadosAcessoShow:true
         },
         formParams:{
             cnpjPagador:"",
@@ -36,9 +37,8 @@ var app = new Vue({
             complementoDestinatario:"",
             bairroDestinatario:"",
             cidadeDestinatario:"",
-            estadoDestinatario:"",
-            volumeCalculado:"",
-            quantidadeCubagem:""
+            estadoDestinatario:""
+            
         },
         /*
         cnpjPagador:"63004030005740",
@@ -67,24 +67,22 @@ var app = new Vue({
             complementoDestinatario:"",
             bairroDestinatario:"",
             cidadeDestinatario:"",
-            estadoDestinatario:"",
-            volumeCalculado:"",
-            quantidadeCubagem:""
+            estadoDestinatario:""
         */
         paramsColeta:{
             token:"",
-            cotacao:"",
             limiteColeta:"",
             solicitante:""
         },
         prazo:0,
         qntLinhasCubagem:0,
         desabilitarVolume:false,
-        retornoCotacao:null,               
+        retornoCotacao:null,
+        numeroCotacao:0               
     },
     methods: {
         cotar: function () {
-            validar();
+            validar("#dados-cotacao");
             if($(".alertError").is(":visible")){
                 console.log("error");
                 return false;
@@ -94,12 +92,8 @@ var app = new Vue({
             var quantidade = 0;
 
             if(this.showHide.showCubagem){
-                volume = this.formParams.volumeCalculado / 1000000;
-                quantidade = this.formParams.quantidadeCubagem;
-                
-            }else{
-                volume = this.formParams.volume / 1000000;
-                quantidade = this.formParams.quantidade;
+                alert("Calcule a cubagem apra continuar");
+                return false;
             }
             
             axios(
@@ -113,9 +107,9 @@ var app = new Vue({
                         "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
                         "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
                         "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
-                        "quantidade": quantidade,
+                        "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "volume": volume,
+                        "volume": this.formParams.volume / 1000000,
                         "cnpjDestinatario": this.formParams.cnpjDestinatario,
                         "ciffob":this.formParams.cifFob,
                         "cnpjRemetente":this.formParams.cnpjPagador
@@ -128,6 +122,7 @@ var app = new Vue({
                 this.prazo = response.data.prazo;
                 this.valorFrete = parseFloat(response.data.valorFrete.replace(",",".")).toLocaleString('pt-br', {style: 'currency', currency:'BRL'});
                 this.paramsColeta.token = response.data.token;
+                this.numeroCotacao = response.data.numeroCotacao
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação");
             })
@@ -173,16 +168,20 @@ var app = new Vue({
         },
         voltar: function(){
             this.showResponseScreem = false;
+            this.showHide.dadosAcessoShow = true;
             setTimeout(validationInit, 1000);
         },
         abrirBlocoCubagem: function(){
             this.formParams.quantidade = 0;
             this.formParams.volume = 0;
             this.showHide.showCubagem = !this.showHide.showCubagem;
-            this.zerarCampoVolumeCubagem();
-
         },
         calcularCubagem: function(){
+
+            if(this.formParams.peso == 0 || this.formParams.peso == ""){
+                alert("Digite o peso de uma das caixas para calcular");
+                return false;
+            }
             var resultado = 0;
             $(".linha-calculo__cubagem").each(function(){
                 var altura = parseFloat($(this).find(".altura").val());
@@ -198,14 +197,12 @@ var app = new Vue({
                 var qnt =parseFloat($(this).val());
                 qntProduto = qntProduto + qnt;
             })
+            
+            this.formParams.quantidade = qntProduto ;
+            this.formParams.volume = resultado;
+            this.formParams.peso = this.formParams.peso * qntProduto;
 
-            this.formParams.quantidadeCubagem = qntProduto;
-
-            console.log("QUANTIDADE", this.formParams.quantidadeCubagem);
-            console.log("resultado", resultado);
-            this.formParams.volumeCalculado = resultado;
-            this.showHide.showCalculoVolume = true;
-            $(".volumeCalculado__container").show(300);
+            this.showHide.showCubagem = false;
         },
         adicionarLinha: function(){
             this.qntLinhasCubagem++;
@@ -217,22 +214,18 @@ var app = new Vue({
         limparCampoVolume:function(){
             this.volume = "";
         },
-        zerarCampoVolumeCubagem: function(){
-            if($(".volumeCalculado__container").find("input").val() == 0 ){
-                return false;
-            }
-
-            this.formParams.volumeCalculado = 0;
-            $(".volumeCalculado__container").hide(300);
-        },
         //TODO
         realizarColeta:function(){
+            if(1===1){
+                alert("Coletar");
+                return false;
+            }
             axios(
                 {
                     method: 'post',
                     url: `/tdbwebservice/v1/coleta`,
                     data: {
-                        cotacao:this.paramsColeta.cotacao,
+                        cotacao:this.paramsColeta.numeroCotacao,
                         limiteColeta:this.paramsColeta.limiteColeta,
                         token:this.paramsColeta.token,
                         solicitante:this.paramsColeta.solicitante
@@ -244,7 +237,44 @@ var app = new Vue({
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação");
             })
+        },
+        continuar:function(){
+            validar("#dados-acesso");
+            if($(".alertError").is(":visible")){
+                console.log("error");
+                return false;
+            }
+
+            axios(
+                {
+                    method: 'post',
+                    url: `/tdbwebservice/v1/consultarCliente`,
+                    data: {
+                        cpfCnpj:this.formParams.cnpjPagador,
+                    }
+                }
+            ).then((responseConsultarCliente) => {
+                console.log("response", responseConsultarCliente.data);
+                
+                if(this.formParams.cifFob == "C"){
+                    this.formParams.nome = responseConsultarCliente.data.razaoSocial; 
+                    this.formParams.cnpjPagadorOrigem = this.formParams.cnpjPagador; 
+                }else{
+                    this.formParams.cnpjDestinatario = this.formParams.cnpjPagador;
+                }
+                this.showHide.dadosAcessoShow=false;
+
+                setTimeout(validationInit, 1000);
+
+            }).catch(error => {
+                alert("houve um problema ao tentar realizar a operação");
+            })
+
+            
+
+            
         }
     },
+    
 
 })
