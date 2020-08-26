@@ -1,14 +1,16 @@
 var app = new Vue({
     el: '#app',
     data: {
-        showResponseScreem: false,
+        showResponseScreem: false, //mock:default false 
         showHide:{
             showdadosAcessos:true,
             showDadosPessoais:true,
             showEnderecoColeta:true,
             showCubagem: false,
             showCalculoVolume:false,
-            dadosAcessoShow:true
+            dadosAcessoShow:true,
+            showDadosColeta:false, //mock default false
+            showColetaSucesso:false //mock default false
         },
         formParams:{
             cnpjPagador:"",
@@ -38,10 +40,9 @@ var app = new Vue({
             bairroDestinatario:"",
             cidadeDestinatario:"",
             estadoDestinatario:""
-            
         },
         /*
-        cnpjPagador:"63004030005740",
+            cnpjPagador:"63004030005740",
             senhaPagador:"cec63",
             nome:"Luiz",
             email:"luiz@gmial.com",
@@ -72,13 +73,14 @@ var app = new Vue({
         paramsColeta:{
             token:"",
             limiteColeta:"",
-            solicitante:""
+            observacao:""
         },
         prazo:0,
         qntLinhasCubagem:0,
         desabilitarVolume:false,
         retornoCotacao:null,
-        numeroCotacao:0               
+        numeroCotacao:0,
+        valorFrete:0 // mock: default 0               
     },
     methods: {
         cotar: function () {
@@ -86,6 +88,15 @@ var app = new Vue({
             if($(".alertError").is(":visible")){
                 console.log("error");
                 return false;
+            }
+
+            if(this.formParams.peso == 0){
+                alert("O peso deve ser maior que zero");
+                return false;
+            }
+
+            if(this.formParams.quantidade == 0){
+                alert("A quantidade deve ser maior que zero");
             }
 
             var volume = 0;
@@ -166,10 +177,55 @@ var app = new Vue({
                 alert("houve um problema ao tentar realizar a operação");
             })
         },
-        voltar: function(){
-            this.showResponseScreem = false;
-            this.showHide.dadosAcessoShow = true;
-            setTimeout(validationInit, 1000);
+        limparDadosTela:function(){
+            this.formParams.cnpjPagador="";
+            this.formParams.senhaPagador="";
+            this.formParams.nome="";
+            this.formParams.email="",
+            this.formParams.telefone="";
+            this.formParams.celular="";
+            this.formParams.cifFob="";
+            this.formParams.cnpjPagadorOrigem="";
+            this.formParams.cepOrigem="";
+            this.formParams.enderecoCepOrigem="";
+            this.formParams.numeroCepOrigem="";
+            this.formParams.complementoCepOrigem="";
+            this.formParams.bairroCepOrigem="";
+            this.formParams.cidadeCepOrigem="";
+            this.formParams.estadoCepOrigem="";
+            this.formParams.quantidade="";
+            this.formParams.peso=0;
+            this.formParams.volume="";
+            this.formParams.dominio="TDD";
+            this.formParams.cepDestinatario="";
+            this.formParams.cnpjDestinatario="";
+            this.formParams.enderecoDestinatario="";
+            this.formParams.numeroDestinatario="";
+            this.formParams.complementoDestinatario="";
+            this.formParams.bairroDestinatario="";
+            this.formParams.cidadeDestinatario="";
+            this.formParams.estadoDestinatario="";
+        },
+        voltar: function(currentLocation){
+
+            if(currentLocation == 'resultadoCotacao'){
+                this.showResponseScreem = false;
+                this.showHide.dadosAcessoShow = true;
+                setTimeout(validationInit, 1000);
+            }
+
+            if(currentLocation == 'dadosColeta'){
+                this.showHide.showDadosColeta = false;
+            }
+
+            if(currentLocation == 'sucessoColeta'){
+                this.limparDadosTela();
+                this.showResponseScreem = false;
+                this.showHide.dadosAcessoShow = true;
+                this.showHide.showDadosColeta = false;
+                this.showHide.showColetaSucesso = false;
+                
+            }
         },
         abrirBlocoCubagem: function(){
             this.formParams.quantidade = 0;
@@ -178,10 +234,6 @@ var app = new Vue({
         },
         calcularCubagem: function(){
 
-            if(this.formParams.peso == 0 || this.formParams.peso == ""){
-                alert("Digite o peso de uma das caixas para calcular");
-                return false;
-            }
             var resultado = 0;
             $(".linha-calculo__cubagem").each(function(){
                 var altura = parseFloat($(this).find(".altura").val());
@@ -200,39 +252,62 @@ var app = new Vue({
             
             this.formParams.quantidade = qntProduto ;
             this.formParams.volume = resultado;
-            this.formParams.peso = this.formParams.peso * qntProduto;
+            //this.formParams.peso = this.formParams.peso * qntProduto;
 
             this.showHide.showCubagem = false;
         },
+        //doing
         adicionarLinha: function(){
+            validar("#container__calcular-cubagem");
+            if($(".alertError").is(":visible")){
+                console.log("error");
+                return false;
+            }
+            
             this.qntLinhasCubagem++;
         },
         deletarLinha: function(n){
             this.$refs['line'][n-1].remove();
-            this.calcularCubagem();
         },
         limparCampoVolume:function(){
             this.volume = "";
         },
+        preencherDadosColeta:function(){
+            this.showHide.showDadosColeta = true;
+        },
         //TODO
         realizarColeta:function(){
             if(1===1){
-                alert("Coletar");
-                return false;
+                var data={
+                    cotacao:this.numeroCotacao,
+                    limiteColeta:this.paramsColeta.limiteColeta,
+                    token:this.paramsColeta.token,
+                    solicitante:this.formParams.email,
+                    observacao: this.paramsColeta.observacao
+                }
+                console.log(data)
+                //return false;
             }
             axios(
                 {
                     method: 'post',
                     url: `/tdbwebservice/v1/coleta`,
                     data: {
-                        cotacao:this.paramsColeta.numeroCotacao,
+                        cotacao:this.numeroCotacao,
                         limiteColeta:this.paramsColeta.limiteColeta,
                         token:this.paramsColeta.token,
-                        solicitante:this.paramsColeta.solicitante
+                        solicitante:this.formParams.email,
+                        observacao: this.paramsColeta.observacao
                     }
                 }
             ).then((responseColeta) => {
-                console.log("response", responseColeta.data);
+                console.log("responseCOLETA", responseColeta.data);
+                if(responseColeta.data.hasError == true){
+                    alert("Não foi possível realizar a solicitação " + responseColeta.data.errorMessage);
+                }
+                if(responseColeta.data.sucesso == true){
+                    this.showHide.showColetaSucesso = true;
+                }
                                 
             }).catch(error => {
                 alert("houve um problema ao tentar realizar a operação");

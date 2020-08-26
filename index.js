@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require('morgan');
 const cotacaoRouter = require("./routes/cotacao");
 const coletaRouter = require("./routes/coleta");
 const viaCep = require("./routes/viaCep");
@@ -11,6 +12,7 @@ var path = require("path");
 
 app.set('view engine','ejs');
 
+app.use(morgan('tiny'));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 

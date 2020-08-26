@@ -18,6 +18,7 @@ document.querySelector("input[name='login']").getAttribute('data-validations').r
 
 var alertTime = 8000;
 var alertOn = false;
+var isOnError = false;
 
 function errorElement(mensagem){
     return `<div class="alertError">${mensagem}</div>`
@@ -27,6 +28,9 @@ function removeAlert(){
     document.querySelectorAll(".alertError").forEach(function(el){
         el.parentElement.remove();
     })
+    alertOn = false;
+    isOnError = false;
+
 }
 
 function alertError(element, mensagem){
@@ -37,9 +41,17 @@ function alertError(element, mensagem){
 
     setTimeout(removeAlert, alertTime);
 
-    window.scrollTo(element.scrollHeight,26);
+    //window.scrollTo(0, $(element).offset().top - 50);
+    if(isOnError == false){
+        console.log("EXEC")
+        $("html, body").animate({
+            scrollTop: $(element).offset().top - 50
+        }, 500);
+    }
+  
 
     alertOn = true;
+    isOnError = true;
 
 }
 

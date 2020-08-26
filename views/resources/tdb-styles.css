@@ -54,6 +54,12 @@ section #iframe:visible {
 #solicitarColeta h4{
   margin-left:30px;
 }
+#sucesso-coleta h2, #sucesso-coleta h4{
+  text-align: center;
+}
+#sucesso-coleta h2{
+  color: #69208a;
+}
 .activity-area{
   width: 100%;
   height: auto;
@@ -77,6 +83,15 @@ section #iframe:visible {
 }
 .tdb-sm-mar--right{
   margin-right: 25px;
+}
+.tdb-md-mar--top{
+  margin-top:45px;
+}
+.tdm-mar--center{
+  margin:0 auto;
+}
+.tdb-inline-block{
+  display:inline-block;
 }
 .btn-tdb{
   /*background-color: #00933aff;*/
@@ -134,7 +149,9 @@ section #iframe:visible {
   animation-name: cardsrollL;
   animation-duration: 2s;
 }
-
+.obs{
+  color:#7b7b7b;
+}
 @keyframes cardsrollR {
 
   100% {left:280px}
@@ -255,7 +272,7 @@ section #iframe:visible {
 #cotacao input{
   width:100%;
 }
-#cotacao a, #responseContacao a{
+#cotacao a, #responseContacao a, #dados-coleta a, #sucesso-coleta a{
   background-color: #69208a;
   border: 0;
   outline: none;
@@ -285,10 +302,10 @@ section #iframe:visible {
 .color-purple{
   color:#69208a;
 }
-#responseContacao{
+#responseContacao, #dados-coleta, #sucesso-coleta{
   text-align: center;
 }
-#responseContacao a{
+#responseContacao a, #dados-coleta a, #sucesso-coleta a{
   margin: 0 auto;
 }
 #btn-calcular-cubagem{
@@ -331,11 +348,19 @@ a#btn-adicionar-linha::after{
   margin: 0 auto;
   margin-top: 45px;
 }
-#responseContacao a.btn-secundary, #cotacao a.btn-secundary{
+#responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary{
   color:#69208a;
   background-color: unset;
   border:1px solid #69208a;
 }
+#dados-coleta label.observacao{
+  vertical-align: top;
+}
+#dados-coleta textarea.observacao{
+  width: 200px;
+}
+
+
 @media(max-width: 992px ){
   .welcome-area .header-text h1{
     font-size:45px;
