@@ -11,8 +11,8 @@ coletaRouter.post("/", (req, res)=>{
 
     var coletaObject = {
         dominio:"TDD",
-        login:"",//wservice
-        senha:"",//wservice
+        login:"wservice",
+        senha:"wservice",
         cotacao:req.body.cotacao,
         limiteColeta:dataColeta, //dateTime
         token:req.body.token,
