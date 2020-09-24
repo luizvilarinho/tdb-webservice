@@ -18,7 +18,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/tdbwebservice/v1/cotacao/', cotacaoRouter);
-app.use('/tdbwebservice/v1/viewColeta/', viewColetaRouter);
+app.use('/tdbwebservice/v1/viewcoleta/', viewColetaRouter);
 app.use('/tdbwebservice/v1/buscaCep/', viaCep);
 app.use('/tdbwebservice/v1/coleta', coletaRouter);
 app.use('/tdbwebservice/v1/consultarCliente', consultarClienteRouter);
