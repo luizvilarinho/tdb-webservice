@@ -3,15 +3,9 @@ var app = new Vue({
     data: {
         showResponseScreem: false, //mock:default false 
         showHide:{
-            showdadosAcessos:true,
-            showDadosPessoais:true,
-            showEnderecoColeta:true,
             showCubagem: false,
-            showCalculoVolume:false,
             dadosAcessoShow:true,
-            showDadosColeta:false, //mock default false
-            showColetaSucesso:false, //mock default false
-            showCotacaoError:false
+            showColetaError:false
         },
         formParams:{
             cnpjPagador:"63004030005740",
@@ -20,7 +14,8 @@ var app = new Vue({
             email:"luiz@gmial.com",
             //telefone:"(11)98221-4786",
            // celular:"(11)98221-4786",
-            cifFob:"F",
+            tipoPagamento:"O",
+            numeroNF:"",
             cnpjPagadorOrigem:"63004030005740",
             cepOrigem:"07031000",
             enderecoCepOrigem:"R Helia",
@@ -72,23 +67,18 @@ var app = new Vue({
             cidadeDestinatario:"",
             estadoDestinatario:""
         */
-        paramsColeta:{
-            token:"",
-            limiteColeta:"",
-            observacao:""
-        },
+        
         errorMessages:{
-            cotacao:""
+            coleta:""
         },
-        prazo:0,
+        numeroColeta:0,
         qntLinhasCubagem:0,
         desabilitarVolume:false,
         retornoCotacao:null,
-        numeroCotacao:0,
-        valorFrete:0 // mock: default 0               
     },
     methods: {
-        cotar: function () {
+        coletar: function () {
+            
             validar("#dados-cotacao");
             if($(".alertError").is(":visible")){
                 console.log("error");
@@ -112,23 +102,29 @@ var app = new Vue({
                 return false;
             }
             
+            var enderecoEntrega = `${this.formParams.enderecoDestinatario},${this.formParams.numeroDestinatario}-${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario}-${this.formParams.estadoDestinatario}`;
+
             axios(
                 {
                     method: 'post',
-                    url: `/tdbwebservice/v1/cotacao/`,
+                    url: `/tdbwebservice/v1/viewColeta/`,
                     data: {
                         "dominio": "TDD",
-                        "cnpjPagador": this.formParams.cnpjPagador,
-                        "senhaPagador":this.formParams.senhaPagador,
-                        "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
-                        "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
-                        "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
+                        "cnpjRemetente": this.formParams.cnpjPagador,
+                        "cnpjDestinatario": this.formParams.cnpjDestinatario,
+                        "numeroNF":this.formParams.numeroNF,
+                        "tipoPagamento":this.formParams.tipoPagamento,
+                        "enderecoEntrega":enderecoEntrega,
+                        "cepEntrega": this.formParams.cepDestinatario.replace("-", ""),
+                        "solicitante":this.formParams.email,
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "volume": this.formParams.volume,
-                        "cnpjDestinatario": this.formParams.cnpjDestinatario,
-                        "ciffob":this.formParams.cifFob,
-                        "cnpjRemetente":this.formParams.cnpjPagador
+                        "observacao":"",
+                        "instrucao":"",
+                        "cubagem": this.formParams.volume,
+                        "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
+                        "especie":"",
+                        "chaveNF":""
                     }
                 }
             ).then((response) => {
@@ -138,14 +134,12 @@ var app = new Vue({
                 if(response.data.sucesso == true){
                     console.log("true")
                     this.showResponseScreem = true;
-                    this.prazo = response.data.prazo;
-                    this.valorFrete = parseFloat(response.data.valorFrete.replace(",",".")).toLocaleString('pt-br', {style: 'currency', currency:'BRL'});
-                    this.paramsColeta.token = response.data.token;
-                    this.numeroCotacao = response.data.numeroCotacao
+                    this.showHide.showColetaError = false;
+                    this.numeroColeta = response.data.numeroColeta
                 }else{
                     console.log("false")
-                    this.showHide.showCotacaoError = true;
-                    this.errorMessages.cotacao = response.data.mensagem
+                    this.showHide.showColetaError = true;
+                    this.errorMessages.coleta = response.data.mensagem
                 }
             })
             
@@ -219,27 +213,21 @@ var app = new Vue({
         },
         voltar: function(currentLocation){
 
-            if(currentLocation == 'resultadoCotacao'){
+            if(currentLocation == 'coletaError'){
                 this.showResponseScreem = false;
                 this.showHide.dadosAcessoShow = true;
+                this.showHide.showColetaError = false;
                 setTimeout(validationInit, 1000);
             }
 
-            if(currentLocation == 'dadosColeta'){
-                this.showHide.showDadosColeta = false;
-            }
-
-            if(currentLocation == 'sucessoColeta'){
-                this.limparDadosTela();
+            if(currentLocation == 'resultadoColeta'){
                 this.showResponseScreem = false;
                 this.showHide.dadosAcessoShow = true;
-                this.showHide.showDadosColeta = false;
-                this.showHide.showColetaSucesso = false;
+                this.showHide.showColetaError = false;
+                setTimeout(validationInit, 1000);
             }
 
-            if(currentLocation == 'cotacaoError'){
-                this.showHide.showCotacaoError = false;
-            }
+            
 
             setTimeout(function(){
                 $(".maskMoney").maskMoney({

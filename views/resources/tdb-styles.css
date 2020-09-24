@@ -60,6 +60,18 @@ section #iframe:visible {
 #sucesso-coleta h2{
   color: #69208a;
 }
+#error-cotacao h2{
+  text-align: center;
+  color:#69208a;
+}
+#error-cotacao a{
+  margin:0 auto;
+}
+#error-cotacao h4{
+  text-align: center;
+  font-weight: 400;
+  margin-top: 20px;
+}
 .activity-area{
   width: 100%;
   height: auto;
@@ -151,6 +163,7 @@ section #iframe:visible {
 }
 .obs{
   color:#7b7b7b;
+  padding-left: 15px;
 }
 @keyframes cardsrollR {
 
@@ -348,7 +361,7 @@ a#btn-adicionar-linha::after{
   margin: 0 auto;
   margin-top: 45px;
 }
-#responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary{
+#responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary, #error-cotacao a.btn-secundary{
   color:#69208a;
   background-color: unset;
   border:1px solid #69208a;

@@ -73,6 +73,14 @@ function minDigit(element, number){
     }
 }
 
+function onlyNumber(element, str){
+    console.log("str", str);
+    var regex = /[a-z A-Z]/g;
+    if(regex.test(str)){
+        alertError(element, "Esse campo aceita apenas números");
+    } 
+}
+
 //scope its a css selector id
 function validar(scope){
     var nodeListAlert = document.querySelectorAll(".alertError");
@@ -100,6 +108,10 @@ function validar(scope){
 
                         case 'minDigit':
                             minDigit(ipt, validationNumber);
+                            break;
+
+                        case 'onlyNumbers':
+                            onlyNumber(ipt, ipt.value);
                             break;
                     }
                 }

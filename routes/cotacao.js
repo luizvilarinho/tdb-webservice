@@ -63,12 +63,25 @@ cotacaoRouter.post("/", (req, res)=>{
                             var data = JSON.parse(convert.xml2json(cotacaoResponse.return.$value, {compact: true, spaces: 4}));
 
                             console.log("OUTPUT", data);
-                            data = {
-                                valorFrete:data.cotacao.frete._text,
-                                prazo: data.cotacao.prazo._text,
-                                token: data.cotacao.token._text,
-                                numeroCotacao: data.cotacao.cotacao._text
+
+                            if(data.cotacao.erro._text > 0){
+                                data = {
+                                    sucesso:false,
+                                    qntErros:data.cotacao.erro._text,
+                                    mensagem:data.cotacao.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
+                                    data:data.cotacao
+                                }
+                            }else{
+                                data = {
+                                    sucesso:true,
+                                    valorFrete:data.cotacao.frete._text,
+                                    prazo: data.cotacao.prazo._text,
+                                    token: data.cotacao.token._text,
+                                    numeroCotacao: data.cotacao.cotacao._text,
+                                    data:data.cotacao
+                                }
                             }
+                            
                             res.json(data);
                         }else{
                             console.log("erro ao realizar cotação", errCotar)

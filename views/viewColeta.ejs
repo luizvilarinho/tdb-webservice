@@ -19,10 +19,10 @@
    <div id="app" class="main">
     <transition name="slide-fade">
 
-        <section id="cotacao" v-if="showResponseScreem == false && showHide.showCotacaoError == false">
+        <section id="cotacao" v-if="showResponseScreem == false && showHide.showColetaError== false">
                 <div class="container tdb-md-pad">
                     <header class="row">
-                        <h2 class="col-sm-12 col-md-12">Cotação de Frete</h2>
+                        <h2 class="col-sm-12 col-md-12">Realizar Coleta</h2>
                         <small class="obs tdb-md-mar--bottom">Obs: Campos com * são obrigatórios.</small>
                     </header>
     
@@ -42,11 +42,11 @@
                                 <input type="password" v-model="formParams.senhaPagador" data-validations="[required]" />
                             </div>
                             <div class="col-xs-12 col-md-3">
-                                <label>CIF ou FOB *</label>
-                                <select v-model="formParams.cifFob" data-validations="[required]">
+                                <label>Tipo de Pagamento</label>
+                                <select v-model="formParams.tipoPagamento" data-validations="[required]">
                                     <option value="">Selecionar</option>
-                                    <option value="C">CIF (remetente é o pagador)</option>
-                                    <option value="F">FOB (destinatário é o pagador)</option>
+                                    <option value="O">Pagamento na origem</option>
+                                    <option value="D">Pagamento no destino</option>
                                 </select>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     </article>
                     
                     <transition name="slide-fade">
-                        <div id="dados-cotacao" v-if="showHide.dadosAcessoShow==false">
+                        <div id="dados-cotacao" v-if="showHide.dadosAcessoShow==false && showResponseScreem==false && showHide.showColetaError== false">
                             <article id="dados-pessoais" class="tdb-md-mar--bottom">
                                 <div class="row">
                                     <h4 class="col-sm-12 col-md-12">Dados do remetente</h4>
@@ -132,6 +132,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>Número da nota fiscal</label>
+                                        <input type="text" v-model="formParams.numeroNF" maxlength="17" class="" data-validations="" />
+                                    </div>
                                     <div class="col-xs-12 col-md-3">
                                         <label>Valor da Nota Fiscal *</label>
                                         <input type="text" name="valorCarga" maxlength="17" class="maskMoney" data-validations="[required]" />
@@ -271,7 +275,7 @@
                             <section>
                                 <div class="row">
                                     <a href="javascript:;" class="btn btn-secundary tdb-sm-mar--right" @click="voltar('resultadoCotacao')">voltar</a>
-                                    <a href="javascript:;" class="btn btn-primary" @click="cotar()">Cotar</a>
+                                    <a href="javascript:;" class="btn btn-primary" @click="coletar()">Coletar</a>
                                 </div>
                             </section>
                         </div>
@@ -281,30 +285,21 @@
         </section>
     </transition>
 
-    <!--resultado cotacao-->
+    <!--resultado Coleta-->
     <transition name="slide-fade">
-        <section id="responseContacao" v-if="showResponseScreem == true && showHide.showColetaSucesso == false">
+        <section id="responseContacao" v-if="showResponseScreem == true && showHide.showColetaError == false">
             <div class="container tdb-md-pad">
                 <header class="row">
-                    <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Resultado</h2>
+                    <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Solicitação realizada com sucesso!</h2>
                 </header>
                 <div class="row">
                     <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
-                        <h4 class="col-sm-12 col-md-12">Número da cotação</h4>
+                        <h4 class="col-sm-12 col-md-12">Número da Coleta</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroCotacao }}</h5>
-                    </div>
-                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
-                        <h4 class="col-sm-12 col-md-12">Valor Frete</h4>
-                        <h5 class="col-sm-12 col-md-12 color-purple">{{ valorFrete }}</h5>
-                    </div>
-                    <div class="col-sm-12 col-md-12">
-                        <h4 class="col-sm-12 col-md-12">Prazo previsto</h4>
-                        <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
                     </div>
                 </div>
                 <div class="row tdb-xl-mar--top btns-result__container">
-                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('resultadoCotacao')">nova cotação</a>
-                    <a href="javascript:;" class="btn btn-primary" @click="realizarColeta()">realizar coleta</a>
+                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('resultadoColeta')">nova coleta</a>
                 </div>
     
             </div>
@@ -312,38 +307,11 @@
         </section>
     </transition>
 
-    <!--Dados para coleta-->
-    <transition name="slide-fade">
-        <section id="dados-coleta" v-if="showHide.showDadosColeta === true && showHide.showColetaSucesso === false">
-            <div class="container tdb-md-pad">
-                <header class="row">
-                    <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Dados para Coleta</h2>
-                </header>
-                <div class="row">
-                    <div class="col-md-4 tdm-mar--center tdb-md-mar--bottom">
-                        <label class="tdb-inline-block">Data limite*</label>
-                        <input type="text" class="tdb-inline-block maskDate" v-model="paramsColeta.limiteColeta" data-validations="[required]" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4 tdm-mar--center">
-                        <label class="tdb-inline-block observacao">Observação</label>
-                        <textarea  class="tdb-inline-block observacao" v-model="paramsColeta.observacao"></textarea>
-                    </div>
-                </div>
-                <div class="row tdb-xl-mar--top btns-result__container">
-                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('dadosColeta')">voltar</a>
-                    <a href="javascript:;" class="btn btn-primary" @click="realizarColeta()">Coletar</a>
-                </div>
     
-            </div>
-            
-        </section>
-    </transition>
 
     <!-- cotacao error-->
     <transition name="slide-fade">
-        <section id="error-cotacao" v-if="showHide.showCotacaoError">
+        <section id="error-cotacao" v-if="showHide.showColetaError">
             <div class="container tdb-md-pad">
                 <header class="row">
                     <h2 class="col-sm-12 col-md-12">Atenção: Algo deu errado!</h2>
@@ -351,7 +319,7 @@
                 </header>
                 
                 <div class="row tdb-xl-mar--top btns-result__container">
-                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('cotacaoError')">Tentar novamente</a>
+                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('coletaError')">Tentar novamente</a>
                     <!-- <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a> -->
                 </div>
     
@@ -360,28 +328,10 @@
         </section>
     </transition>
     <!--coleta realizada com sucesso-->
-    <transition name="slide-fade">
-        <section id="sucesso-coleta" v-if="showHide.showColetaSucesso">
-            <div class="container tdb-md-pad">
-                <header class="row">
-                    <h2 class="col-sm-12 col-md-12">Tudo certo com sua solicitação</h2>
-                    <h4 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Coleta agendada com sucesso</h4>
-                </header>
-                
-                <div class="row tdb-xl-mar--top btns-result__container">
-                    <a href="javascript:;" class="btn btn-secundary" @click="voltar('sucessoColeta')">Nova cotação</a>
-                    <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a>
-                </div>
-    
-            </div>
-            
-        </section>
-    </transition>
-
 
    </div> 
     
-<script src="/script_views.js"></script>
+<script src="/scriptViewColeta.js"></script>
 <script src="/formValidations.js"></script>
 
 <script>

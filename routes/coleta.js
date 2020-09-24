@@ -2,12 +2,18 @@ const express = require("express");
 const coletaRouter = express.Router();
 const soap = require('soap');
 var convert = require('xml-js');
-const transformDate = require('../modules/transformDate');
+const getDateColeta = require('../modules/getDateColeta');
 const urlCotacaoColeta = 'https://ssw.inf.br/ws/sswCotacaoColeta/index.php?wsdl';
 
 coletaRouter.post("/", (req, res)=>{
 
-    var dataColeta = transformDate(req.body.limiteColeta);
+    //var hj = new Date();
+    //var dataColeta = transformDate(req.body.limiteColeta);
+    var dataColeta = getDateColeta();
+
+    console.log("dataColeta2", dataColeta);
+     
+   
 
     var coletaObject = {
         dominio:"TDD",
@@ -21,6 +27,8 @@ coletaRouter.post("/", (req, res)=>{
         chaveNFe:""
     }
 
+    console.log("coletaObject");
+    
     soap.createClient(urlCotacaoColeta, (error,client) =>{
         if(!error){
             client.coletar(coletaObject, (responseError, response)=>{

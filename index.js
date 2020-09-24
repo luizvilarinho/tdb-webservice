@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require('morgan');
 const cotacaoRouter = require("./routes/cotacao");
 const coletaRouter = require("./routes/coleta");
+const viewColetaRouter = require("./routes/viewColeta");
 const viaCep = require("./routes/viaCep");
 const consultarClienteRouter = require("./routes/consultarCliente");
 const app = express();
@@ -17,6 +18,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/tdbwebservice/v1/cotacao/', cotacaoRouter);
+app.use('/tdbwebservice/v1/viewColeta/', viewColetaRouter);
 app.use('/tdbwebservice/v1/buscaCep/', viaCep);
 app.use('/tdbwebservice/v1/coleta', coletaRouter);
 app.use('/tdbwebservice/v1/consultarCliente', consultarClienteRouter);
