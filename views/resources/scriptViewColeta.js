@@ -212,6 +212,12 @@ var app = new Vue({
             this.formParams.estadoDestinatario="";
         },
         voltar: function(currentLocation){
+            if(currentLocation == 'dadosColeta'){
+                this.showResponseScreem = false;
+                this.showHide.dadosAcessoShow = true;
+                this.showHide.showColetaError = false;
+                setTimeout(validationInit, 1000);
+            }
 
             if(currentLocation == 'coletaError'){
                 this.showResponseScreem = false;
@@ -219,6 +225,7 @@ var app = new Vue({
                 this.showHide.showColetaError = false;
                 setTimeout(validationInit, 1000);
             }
+            
 
             if(currentLocation == 'resultadoColeta'){
                 this.showResponseScreem = false;
