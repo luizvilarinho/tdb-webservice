@@ -35,6 +35,25 @@ viewColetaRouter.post("/", (req, res)=>{
         chaveNF:req.body.chaveNF
     }
 
+    /*
+    //MOCK
+    var mockerror={
+            sucesso:false,
+            qntErros:1,
+            mensagem:"erro ao realizar a coleta",
+            data:"data.coletar"
+    }
+
+    var mocksucesso={
+        sucesso:true,
+        numeroColeta:12345,
+        data:""
+}
+
+    res.json(mockerror);
+    return;
+    */
+
     soap.createClient(urlColeta, (error,client) =>{
         if(!error){
             client.coletar(coletaObj, (responseError, response)=>{
@@ -44,7 +63,7 @@ viewColetaRouter.post("/", (req, res)=>{
                     console.log("colectINPUT", coletaObj);
                     console.log("colectOUTPUT", data);
                     
-                    if(data.coletar.erro._text > 0 || data.coletar.erro._text < 0){
+                    if(data.coletar.erro._text != "0"){
                         var coletaData = {
                             sucesso:false,
                             qntErros:data.coletar.erro._text,

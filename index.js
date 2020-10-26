@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require('cors');
 const morgan = require('morgan');
 const cotacaoRouter = require("./routes/cotacao");
 const coletaRouter = require("./routes/coleta");
@@ -11,6 +12,7 @@ const buscaCepUrl = 'https://ssw.inf.br/ws/sswCotacaoColeta/index.php?wsdl';
 var bodyParser = require("body-parser");
 var path = require("path");
 
+app.use(cors());
 app.set('view engine','ejs');
 
 app.use(morgan('tiny'));
@@ -19,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/tdbwebservice/v1/cotacao/', cotacaoRouter);
 app.use('/tdbwebservice/v1/viewcoleta/', viewColetaRouter);
-app.use('/tdbwebservice/v1/buscaCep/', viaCep);
+app.use('/tdbwebservice/v1/buscacep/', viaCep);
 app.use('/tdbwebservice/v1/coleta', coletaRouter);
 app.use('/tdbwebservice/v1/consultarCliente', consultarClienteRouter);
 

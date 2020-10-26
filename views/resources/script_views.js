@@ -112,6 +112,8 @@ var app = new Vue({
                 return false;
             }
             
+            var volume = this.formParams.volume || 0;
+
             axios(
                 {
                     method: 'post',
@@ -125,7 +127,7 @@ var app = new Vue({
                         "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "volume": this.formParams.volume,
+                        "volume": volume,
                         "cnpjDestinatario": this.formParams.cnpjDestinatario,
                         "ciffob":this.formParams.cifFob,
                         "cnpjRemetente":this.formParams.cnpjPagador
@@ -305,9 +307,9 @@ var app = new Vue({
                     solicitante:this.formParams.email,
                     observacao: enderecoCompletoDestinatario
                 }
-                console.log(data)               
                 this.paramsColeta.observacao = enderecoCompletoDestinatario
-            
+                console.log(data);
+                
             axios(
                 {
                     method: 'post',
@@ -323,7 +325,8 @@ var app = new Vue({
             ).then((responseColeta) => {
                 console.log("responseCOLETA", responseColeta.data);
                 if(responseColeta.data.hasError == true){
-                    alert("Não foi possível realizar a solicitação " + responseColeta.data.errorMessage);
+                   this.showHide.showCotacaoError = true;
+                   this.showResponseScreem = false
                 }
                 if(responseColeta.data.sucesso == true){
                     this.showHide.showColetaSucesso = true;

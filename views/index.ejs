@@ -73,21 +73,10 @@
                                         <label>CNPJ / CPF *</label>
                                         <input type="text" v-model="formParams.cnpjPagadorOrigem" class="cnpj" data-validations="[required, minDigit-3]" />
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xs-12 col-md-3">
                                         <label>E-mail *</label>
                                         <input type="text" v-model="formParams.email" maxlength="45" data-validations="[required, minDigit-3]" />
                                     </div>
-                                    <!-- <div class="col-xs-12 col-md-3">
-                                        <label>Telefone *</label>
-                                        <input type="text" v-model="formParams.telefone" class="telefone" data-validations="[required, minDigit-12]" />
-                                    </div>
-                                    <div class="col-xs-12 col-md-3">
-                                        <label>Celular</label>
-                                        <input type="text" v-model="formParams.celular" class="celular" data-validations="[minDigit-12]" />
-                                    </div> -->
-                                    
                                 </div>
                             </article>
         
@@ -101,22 +90,21 @@
                                             <label>Cep de origem (coleta) *</label>
                                             <input type="text" v-model="formParams.cepOrigem" class="cep" maxlength="9" data-validations="[required, minDigit-3]" @change="buscarCidade('origem')" />
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-md-5">
+                                        <div class="col-xs-12 col-md-7">
                                             <label>Endereço</label>
-                                            <input type="text" v-model="formParams.enderecoCepOrigem" maxlength="50" data-validations="[required, minDigit-3]" />
+                                            <input type="text" v-model="formParams.enderecoCepOrigem" maxlength="50" data-validations="[minDigit-3]" />
                                         </div>
                                         <div class="col-xs-12 col-md-2">
                                             <label>Número</label>
-                                            <input type="text" min="0" v-model="formParams.numeroCepOrigem" maxlength="6" class="maskNumber" data-validations="[required]" />
+                                            <input type="text" min="0" v-model="formParams.numeroCepOrigem" maxlength="6" class="maskNumber" />
                                         </div>
+                                    </div>
+                                    
+                                    <div class="row">
                                         <div class="col-xs-12 col-md-3">
                                             <label>Complemento</label>
                                             <input type="text" v-model="formParams.complementoCepOrigem" maxlength="20" />
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-xs-12 col-md-4">
                                             <label>Bairro</label>
                                             <input type="text" v-model="formParams.bairroCepOrigem" maxlength="30" />
@@ -125,7 +113,7 @@
                                             <label>Cidade</label>
                                             <input type="text" v-model="formParams.cidadeCepOrigem" maxlength="40" />
                                         </div>
-                                        <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 col-md-2">
                                             <label>UF</label>
                                             <input type="text" v-model="formParams.estadoCepOrigem" maxlength="2" />
                                         </div>
@@ -144,11 +132,9 @@
                                         <label>Peso (KG) *</label>
                                         <input type="number" min="0" v-model="formParams.peso" class="peso" maxlength="6" />
                                     </div>
-                                </div>
-                                <div v-show="true" class="row">
                                     <div class="col-xs-12 col-md-2">
                                         <label>M³</label>
-                                        <input type="number" min="0" v-bind:disabled="showHide.showCubagem" v-model="formParams.volume" maxlength="7" data-validations="[required]"  />
+                                        <input type="number" min="0" v-bind:disabled="showHide.showCubagem" v-model="formParams.volume" maxlength="7" />
                                     </div> 
                                     <div v-if="!showHide.showCubagem" class="col-xs-12 col-md-3">
                                         <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">Calcular Cubagem</a>
@@ -157,6 +143,7 @@
                                         <a href="javascript:;" id="btn-calcular-cubagem" @click="abrirBlocoCubagem()">fechar Cálculo Cubagem</a>
                                     </div>
                                 </div>
+                               
         
                                 <transition name="slide-fade">
                                     <div v-show="showHide.showCubagem" id="container__calcular-cubagem" class="col-xs-12 col-md-12">
@@ -227,39 +214,39 @@
                                 </div>
                                 <div class="endereco">
                                     <div class="row">
-                                        <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 col-md-2">
                                             <label>CEP de destino *</label>
                                             <input type="text" v-model="formParams.cepDestinatario" class="cep" data-validations="[required, minDigit-3]" @change="buscarCidade('destino')" />
                                         </div>
-                                        <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 col-md-4">
                                             <label>CNPJ / CPF - Destinatário</label>
                                             <input type="text" v-model="formParams.cnpjDestinatario" class="cnpj" />
                                         </div>
-                                        <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 col-md-5">
                                             <label>Endereço </label>
-                                            <input type="text" v-model="formParams.enderecoDestinatario" maxlength="50" data-validations="[required]" />
+                                            <input type="text" v-model="formParams.enderecoDestinatario" maxlength="50" />
                                         </div>
-                                        <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 col-md-1">
                                             <label>Número </label>
-                                            <input type="text" min="0" v-model="formParams.numeroDestinatario" class="maskNumber" maxlength="6" data-validations="[required]" />
+                                            <input type="text" min="0" v-model="formParams.numeroDestinatario" class="maskNumber" maxlength="6" />
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 col-md-3">
                                             <label>Complemento </label>
                                             <input type="text" v-model="formParams.complementoDestinatario" maxlength="20" />
                                         </div>
-                                        <div class="col-xs-12 col-md-3">
+                                        <div class="col-xs-12 col-md-5">
                                             <label>Bairro </label>
-                                            <input type="text" v-model="formParams.bairroDestinatario" data-validations="[required]" maxlength="30" />
+                                            <input type="text" v-model="formParams.bairroDestinatario"  maxlength="30" />
                                         </div>
                                         <div class="col-xs-12 col-md-3">
                                             <label>Cidade </label>
-                                            <input type="text" v-model="formParams.cidadeDestinatario" data-validations="[required]" maxlength="40" />
+                                            <input type="text" v-model="formParams.cidadeDestinatario"  maxlength="40" />
                                         </div>
-                                        <div class="col-xs-12 col-md-2">
+                                        <div class="col-xs-12 col-md-1">
                                             <label>UF</label>
-                                            <input type="text" v-model="formParams.estadoDestinatario" data-validations="[required]" maxlength="2" />
+                                            <input type="text" v-model="formParams.estadoDestinatario" maxlength="2" />
                                         </div>
                                     </div>
                                 </div>
@@ -269,7 +256,7 @@
                             </article>
             
                             <section>
-                                <div class="row">
+                                <div class="tdb-txt-align-R">
                                     <a href="javascript:;" class="btn btn-secundary tdb-sm-mar--right" @click="voltar('resultadoCotacao')">voltar</a>
                                     <a href="javascript:;" class="btn btn-primary" @click="cotar()">Cotar</a>
                                 </div>
@@ -302,7 +289,7 @@
                         <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
                     </div>
                 </div>
-                <div class="row tdb-xl-mar--top btns-result__container">
+                <div class="tdb-txt-align-R tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('resultadoCotacao')">nova cotação</a>
                     <a href="javascript:;" class="btn btn-primary" @click="realizarColeta()">realizar coleta</a>
                 </div>
@@ -350,7 +337,7 @@
                     <h4 class="col-sm-12 col-md-12 tdb-md-mar--bottom">{{ errorMessages.cotacao }}</h4>
                 </header>
                 
-                <div class="row tdb-xl-mar--top btns-result__container">
+                <div class="tdb-txt-align-R tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('cotacaoError')">Tentar novamente</a>
                     <!-- <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a> -->
                 </div>

@@ -8,7 +8,6 @@ var app = new Vue({
             showColetaError:false
         },
         formParams:{
-            
             cnpjPagador:"",
             senhaPagador:"",
             nome:"",
@@ -35,7 +34,8 @@ var app = new Vue({
             complementoDestinatario:"",
             bairroDestinatario:"",
             cidadeDestinatario:"",
-            estadoDestinatario:""
+            estadoDestinatario:"",
+            tipoPagamento:""
         },
         /*
             cnpjPagador:"63004030005740",
@@ -94,11 +94,10 @@ var app = new Vue({
                 alert("A quantidade deve ser maior que zero");
             }
 
-            var volume = 0;
-            var quantidade = 0;
+            var volume = this.formParams.volume || 0;
 
             if(this.showHide.showCubagem){
-                alert("Calcule a cubagem apra continuar");
+                alert("Calcule a cubagem para continuar");
                 return false;
             }
             
@@ -107,7 +106,7 @@ var app = new Vue({
             axios(
                 {
                     method: 'post',
-                    url: `/tdbwebservice/v1/viewColeta/`,
+                    url: `/tdbwebservice/v1/viewcoleta/`,
                     data: {
                         "dominio": "TDD",
                         "cnpjRemetente": this.formParams.cnpjPagador,
@@ -121,7 +120,7 @@ var app = new Vue({
                         "peso": this.formParams.peso,
                         "observacao":"",
                         "instrucao":"",
-                        "cubagem": this.formParams.volume,
+                        "cubagem": volume,
                         "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
                         "especie":"",
                         "chaveNF":""
@@ -129,7 +128,6 @@ var app = new Vue({
                 }
             ).then((response) => {
                 console.log("response", response)
-                //this.retornoCotacao = response.data;
 
                 if(response.data.sucesso == true){
                     console.log("true")
@@ -291,43 +289,6 @@ var app = new Vue({
         preencherDadosColeta:function(){
             this.showHide.showDadosColeta = true;
         },
-        //TODO
-        realizarColeta:function(){
-                var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario}`
-                var data={
-                    cotacao:this.numeroCotacao,
-                    token:this.paramsColeta.token,
-                    solicitante:this.formParams.email,
-                    observacao: enderecoCompletoDestinatario
-                }
-                console.log(data)               
-                this.paramsColeta.observacao = enderecoCompletoDestinatario
-            
-            axios(
-                {
-                    method: 'post',
-                    url: `/tdbwebservice/v1/coleta`,
-                    data: {
-                        cotacao:this.numeroCotacao,
-                        limiteColeta:this.paramsColeta.limiteColeta,
-                        token:this.paramsColeta.token,
-                        solicitante:this.formParams.email,
-                        observacao: enderecoCompletoDestinatario
-                    }
-                }
-            ).then((responseColeta) => {
-                console.log("responseCOLETA", responseColeta.data);
-                if(responseColeta.data.hasError == true){
-                    alert("Não foi possível realizar a solicitação " + responseColeta.data.errorMessage);
-                }
-                if(responseColeta.data.sucesso == true){
-                    this.showHide.showColetaSucesso = true;
-                }
-                                
-            }).catch(error => {
-                alert("houve um problema ao tentar realizar a operação");
-            })
-        },
         continuar:function(){
             validar("#dados-acesso");
             if($(".alertError").is(":visible")){
@@ -346,7 +307,7 @@ var app = new Vue({
             ).then((responseConsultarCliente) => {
                 console.log("response", responseConsultarCliente.data);
                 
-                if(this.formParams.cifFob == "C"){
+                if(this.formParams.tipoPagamento == "O"){
                     this.formParams.nome = responseConsultarCliente.data.razaoSocial; 
                     this.formParams.cnpjPagadorOrigem = this.formParams.cnpjPagador; 
                 }else{

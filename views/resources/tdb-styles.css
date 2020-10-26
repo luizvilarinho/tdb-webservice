@@ -54,10 +54,10 @@ section #iframe:visible {
 #solicitarColeta h4{
   margin-left:30px;
 }
-#sucesso-coleta h2, #sucesso-coleta h4{
+#sucesso-coleta h2, #sucesso-coleta h4, #responseColeta h2, #responseColeta h4, #responseColeta h5{
   text-align: center;
 }
-#sucesso-coleta h2{
+#sucesso-coleta h2, #responseColeta h2{
   color: #69208a;
 }
 #error-cotacao h2{
@@ -285,7 +285,7 @@ section #iframe:visible {
 #cotacao input{
   width:100%;
 }
-#cotacao a, #responseContacao a, #dados-coleta a, #sucesso-coleta a{
+#cotacao a, #responseContacao a, #dados-coleta a, #sucesso-coleta a, #responseColeta a {
   background-color: #69208a;
   border: 0;
   outline: none;
@@ -315,10 +315,10 @@ section #iframe:visible {
 .color-purple{
   color:#69208a;
 }
-#responseContacao, #dados-coleta, #sucesso-coleta{
+#responseContacao, #dados-coleta, #sucesso-coleta, #responseColeta{
   text-align: center;
 }
-#responseContacao a, #dados-coleta a, #sucesso-coleta a{
+#responseContacao a, #dados-coleta a, #sucesso-coleta a, #responseColeta a{
   margin: 0 auto;
 }
 #btn-calcular-cubagem{
@@ -361,7 +361,7 @@ a#btn-adicionar-linha::after{
   margin: 0 auto;
   margin-top: 45px;
 }
-#responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary, #error-cotacao a.btn-secundary{
+#responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary, #error-cotacao a.btn-secundary, #responseColeta a.btn-secundary{
   color:#69208a;
   background-color: unset;
   border:1px solid #69208a;
@@ -372,7 +372,12 @@ a#btn-adicionar-linha::after{
 #dados-coleta textarea.observacao{
   width: 200px;
 }
-
+.tdb-txt-align-R{
+  text-align: right;
+}
+.tdb-txt-align-L{
+  text-align: left;
+}
 
 @media(max-width: 992px ){
   .welcome-area .header-text h1{

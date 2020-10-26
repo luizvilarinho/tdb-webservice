@@ -13,8 +13,6 @@ coletaRouter.post("/", (req, res)=>{
 
     console.log("dataColeta2", dataColeta);
      
-   
-
     var coletaObject = {
         dominio:"TDD",
         login:"wservice",
@@ -27,9 +25,22 @@ coletaRouter.post("/", (req, res)=>{
         chaveNFe:""
     }
 
-    console.log("coletaObject");
-    
-    soap.createClient(urlCotacaoColeta, (error,client) =>{
+    /*//mock
+    var mockerror={
+        "hasError": true,
+        "error": "1",
+        "errorMessage": "COTACAO JA CONTRATADA"
+    }
+
+    var mocksucesso={
+        sucesso:true,
+        codigoColeta:166888
+    }
+
+    res.json(mocksucesso);
+    return;
+    */
+       soap.createClient(urlCotacaoColeta, (error,client) =>{
         if(!error){
             client.coletar(coletaObject, (responseError, response)=>{
 
@@ -40,15 +51,17 @@ coletaRouter.post("/", (req, res)=>{
                     
                     var coletaReturObject = {}
                    
-                    if(coletaData.coleta.erro._text == '-2'){
-                        coletaReturObject.hasError = true,
+                    if(coletaData.coleta.erro._text != '0'){
+                        coletaReturObject.hasError = true;
                         coletaReturObject.error = coletaData.coleta.erro._text;
                         coletaReturObject.errorMessage = coletaData.coleta.mensagem._text;
                     }else{
-                        coletaReturObject.sucesso = true
+                        coletaReturObject.sucesso = true;
+                        coletaReturObject.codigoColeta = coletaData.coleta.coleta._text;
                     }
 
                     res.json(coletaReturObject);
+                   
                 }else{
                     console.log("erro no response do método coletar", responseError);
                 }
