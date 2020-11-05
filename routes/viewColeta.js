@@ -53,6 +53,7 @@ viewColetaRouter.post("/", (req, res)=>{
     res.json(mockerror);
     return;
     */
+   console.log("colectINPUT", coletaObj);
 
     soap.createClient(urlColeta, (error,client) =>{
         if(!error){
@@ -60,7 +61,7 @@ viewColetaRouter.post("/", (req, res)=>{
     
                 if(!responseError){
                     var data = JSON.parse(convert.xml2json(response.return.$value, {compact: true, spaces: 4}));
-                    console.log("colectINPUT", coletaObj);
+                    
                     console.log("colectOUTPUT", data);
                     
                     if(data.coletar.erro._text != "0"){

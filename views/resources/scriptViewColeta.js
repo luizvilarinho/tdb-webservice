@@ -27,7 +27,7 @@ var app = new Vue({
             peso:0,
             volume:"",
             dominio:"TDD",
-            cepDestinatario:"",
+            cepDestinatario:"02174-010",
             cnpjDestinatario:"",
             enderecoDestinatario:"",
             numeroDestinatario:"",
@@ -35,7 +35,8 @@ var app = new Vue({
             bairroDestinatario:"",
             cidadeDestinatario:"",
             estadoDestinatario:"",
-            tipoPagamento:""
+            tipoPagamento:"",
+            numeroNF:""
         },
         /*
             cnpjPagador:"63004030005740",
@@ -102,23 +103,42 @@ var app = new Vue({
             }
             
             var enderecoEntrega = `${this.formParams.enderecoDestinatario},${this.formParams.numeroDestinatario}-${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario}-${this.formParams.estadoDestinatario}`;
+                var data= {
+                    "dominio": "TDD",
+                    "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjDestinatario,
+                    "cnpjDestinatario": this.formParams.tipoPagamento == "O" ? this.formParams.cnpjDestinatario : this.formParams.cnpjPagador,
+                    "numeroNF":this.formParams.numeroNF,
+                    "tipoPagamento":this.formParams.tipoPagamento,
+                    "enderecoEntrega":enderecoEntrega,
+                    "cepEntrega": this.formParams.cepDestinatario.replace("-", ""),
+                    "solicitante":this.formParams.email,
+                    "quantidade": this.formParams.quantidade,
+                    "peso": this.formParams.peso,
+                    "observacao":"TESTE SITE: NAO COLETAR",
+                    "instrucao":"",
+                    "cubagem": volume,
+                    "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
+                    "especie":"",
+                    "chaveNF":""
+                }
+                console.log("FRONTEND_SENDING...", data);
 
             axios(
                 {
                     method: 'post',
-                    url: `/tdbwebservice/v1/viewcoleta/`,
+                    url: `/tdbwebservice/v1/viewcoleta`,
                     data: {
                         "dominio": "TDD",
-                        "cnpjRemetente": this.formParams.cnpjPagador,
-                        "cnpjDestinatario": this.formParams.cnpjDestinatario,
+                        "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjDestinatario,
+                        "cnpjDestinatario": this.formParams.tipoPagamento == "O" ? this.formParams.cnpjDestinatario : this.formParams.cnpjPagador,
                         "numeroNF":this.formParams.numeroNF,
                         "tipoPagamento":this.formParams.tipoPagamento,
                         "enderecoEntrega":enderecoEntrega,
-                        "cepEntrega": this.formParams.cepDestinatario.replace("-", ""),
+                        "cepEntrega": this.formParams.cepDestinatario.replace("-", "").trim(),
                         "solicitante":this.formParams.email,
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "observacao":"",
+                        "observacao":"TESTE SITE: NAO COLETAR",
                         "instrucao":"",
                         "cubagem": volume,
                         "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),

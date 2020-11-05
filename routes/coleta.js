@@ -43,9 +43,10 @@ coletaRouter.post("/", (req, res)=>{
        soap.createClient(urlCotacaoColeta, (error,client) =>{
         if(!error){
             client.coletar(coletaObject, (responseError, response)=>{
-
+                var stringFormatter= response.return.$value.replace("&", "");
+                console.log("RESPONSEVALUE", response.return.$value)
                 if(!responseError){
-                    var coletaData = JSON.parse(convert.xml2json(response.return.$value, {compact: true, spaces: 4}));
+                    var coletaData = JSON.parse(convert.xml2json(stringFormatter, {compact: true, spaces: 4}));
                     console.log("colectINPUT", coletaObject);
                     console.log("colectOUTPUT", coletaData);
                     

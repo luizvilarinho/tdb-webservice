@@ -95,8 +95,8 @@
                                             <input type="text" v-model="formParams.enderecoCepOrigem" maxlength="50" data-validations="[minDigit-3]" />
                                         </div>
                                         <div class="col-xs-12 col-md-2">
-                                            <label>Número</label>
-                                            <input type="text" min="0" v-model="formParams.numeroCepOrigem" maxlength="6" class="maskNumber" />
+                                            <label>Número *</label>
+                                            <input type="text" min="0" v-model="formParams.numeroCepOrigem" maxlength="6" class="maskNumber"  data-validations="[required]" />
                                         </div>
                                     </div>
                                     

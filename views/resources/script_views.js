@@ -114,13 +114,30 @@ var app = new Vue({
             
             var volume = this.formParams.volume || 0;
 
+            var data= {
+                "dominio": "TDD",
+                "cnpjPagador": this.formParams.cifFob == "C" ? this.formParams.cnpjPagadorOrigem : this.formParams.cnpjDestinatario,
+                "senhaPagador":this.formParams.senhaPagador,
+                "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
+                "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
+                "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
+                "quantidade": this.formParams.quantidade,
+                "peso": this.formParams.peso,
+                "volume": volume,
+                "cnpjDestinatario": this.formParams.cnpjDestinatario,
+                "ciffob":this.formParams.cifFob,
+                "cnpjRemetente": this.formParams.cnpjPagadorOrigem
+            };
+
+            console.log("FRONTENDSENDING...", data);
+
             axios(
                 {
                     method: 'post',
                     url: `/tdbwebservice/v1/cotacao/`,
                     data: {
                         "dominio": "TDD",
-                        "cnpjPagador": this.formParams.cnpjPagador,
+                        "cnpjPagador": this.formParams.cifFob == "C" ? this.formParams.cnpjPagadorOrigem : this.formParams.cnpjDestinatario,
                         "senhaPagador":this.formParams.senhaPagador,
                         "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
                         "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
@@ -130,7 +147,7 @@ var app = new Vue({
                         "volume": volume,
                         "cnpjDestinatario": this.formParams.cnpjDestinatario,
                         "ciffob":this.formParams.cifFob,
-                        "cnpjRemetente":this.formParams.cnpjPagador
+                        "cnpjRemetente": this.formParams.cnpjPagadorOrigem
                     }
                 }
             ).then((response) => {
@@ -300,15 +317,17 @@ var app = new Vue({
         },
         //TODO
         realizarColeta:function(){
-                var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario}`
+            var enderecoCompletoDestinatario = "TESTE SITE: NAO COLETAR"
+                //var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario}`
                 var data={
-                    cotacao:this.numeroCotacao,
+                     cotacao:this.numeroCotacao,
+                    limiteColeta:this.paramsColeta.limiteColeta,
                     token:this.paramsColeta.token,
                     solicitante:this.formParams.email,
                     observacao: enderecoCompletoDestinatario
                 }
-                this.paramsColeta.observacao = enderecoCompletoDestinatario
-                console.log(data);
+                
+                console.log("FRONTEND_SENDINDG...", data);
                 
             axios(
                 {
@@ -323,7 +342,8 @@ var app = new Vue({
                     }
                 }
             ).then((responseColeta) => {
-                console.log("responseCOLETA", responseColeta.data);
+                console.log("BACKEND_RESPONSE", responseColeta.data);
+                //exemplo de objeto de response =>{sucesso: true, codigoColeta: "SAO044153"}
                 if(responseColeta.data.hasError == true){
                    this.showHide.showCotacaoError = true;
                    this.showResponseScreem = false
@@ -333,6 +353,7 @@ var app = new Vue({
                 }
                                 
             }).catch(error => {
+                //console.log("BACKEND_RESPONSE", responseColeta.data);
                 alert("houve um problema ao tentar realizar a operação");
             })
         },

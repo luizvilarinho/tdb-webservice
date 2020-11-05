@@ -27,7 +27,7 @@ cotacaoRouter.post("/", (req, res)=>{
         volume:req.body.volume,
         mercadoria:null,
         ciffob:req.body.ciffob,
-        cnpjRemetente:req.body.cnpjPagador,
+        cnpjRemetente:req.body.cnpjRemetente,
         cnpjDestinatario:req.body.cnpjDestinatario,
         observacao:"",
         trt:""

@@ -45,8 +45,8 @@
                                 <label>Tipo de Coleta</label>
                                 <select v-model="formParams.tipoPagamento" data-validations="[required]">
                                     <option value="">Selecionar</option>
-                                    <option value="O">Pagamento na origem</option>
-                                    <option value="D">Pagamento no destino</option>
+                                    <option value="O">CIF (remetente é o pagador)</option>
+                                    <option value="D">FOB (destinatário é o pagador)</option>
                                 </select>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
                                 
                             </article>
         
-                            <article class="tdb-md-mar--bottom">
+                            <!-- <article class="tdb-md-mar--bottom">
                                 <div class="row">
                                     <h4 class="col-sm-12 col-md-12">Dados do destinatário</h4>
                                 </div>
@@ -256,7 +256,7 @@
                                 
         
                                 
-                            </article>
+                            </article> -->
             
                             <section>
                                 <div class="tdb-txt-align-R tdb-md-mar--top">
