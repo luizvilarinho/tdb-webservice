@@ -354,10 +354,16 @@
                     <h2 class="col-sm-12 col-md-12">Tudo certo com sua solicitação</h2>
                     <h4 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Coleta agendada com sucesso</h4>
                 </header>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                        <h4 class="col-sm-12 col-md-12">Número da Coleta</h4>
+                        <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroColeta }}</h5>
+                    </div>
+                </div>
                 
                 <div class="row tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('sucessoColeta')">Nova cotação</a>
-                    <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a>
+                    <!-- <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a> -->
                 </div>
     
             </div>

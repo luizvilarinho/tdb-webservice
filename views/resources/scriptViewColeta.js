@@ -36,7 +36,8 @@ var app = new Vue({
             cidadeDestinatario:"",
             estadoDestinatario:"",
             tipoPagamento:"",
-            numeroNF:""
+            numeroNF:"",
+            observacao:""
         },
         /*
             cnpjPagador:"63004030005740",
@@ -114,7 +115,7 @@ var app = new Vue({
                     "solicitante":this.formParams.email,
                     "quantidade": this.formParams.quantidade,
                     "peso": this.formParams.peso,
-                    "observacao":"TESTE SITE: NAO COLETAR",
+                    "observacao":this.formParams.observacao,
                     "instrucao":"",
                     "cubagem": volume,
                     "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
@@ -138,7 +139,7 @@ var app = new Vue({
                         "solicitante":this.formParams.email,
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "observacao":"TESTE SITE: NAO COLETAR",
+                        "observacao":this.formParams.observacao,
                         "instrucao":"",
                         "cubagem": volume,
                         "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
@@ -201,33 +202,36 @@ var app = new Vue({
             })
         },
         limparDadosTela:function(){
-            this.formParams.cnpjPagador="";
-            this.formParams.senhaPagador="";
-            this.formParams.nome="";
-            this.formParams.email="",
-            this.formParams.telefone="";
-            this.formParams.celular="";
-            this.formParams.cifFob="";
-            this.formParams.cnpjPagadorOrigem="";
-            this.formParams.cepOrigem="";
-            this.formParams.enderecoCepOrigem="";
-            this.formParams.numeroCepOrigem="";
-            this.formParams.complementoCepOrigem="";
-            this.formParams.bairroCepOrigem="";
-            this.formParams.cidadeCepOrigem="";
-            this.formParams.estadoCepOrigem="";
-            this.formParams.quantidade="";
-            this.formParams.peso=0;
-            this.formParams.volume="";
-            this.formParams.dominio="TDD";
-            this.formParams.cepDestinatario="";
-            this.formParams.cnpjDestinatario="";
-            this.formParams.enderecoDestinatario="";
-            this.formParams.numeroDestinatario="";
-            this.formParams.complementoDestinatario="";
-            this.formParams.bairroDestinatario="";
-            this.formParams.cidadeDestinatario="";
-            this.formParams.estadoDestinatario="";
+            this.formParams.cnpjPagador = "",
+            this.formParams.senhaPagador = "",
+            this.formParams.nome = "",
+            this.formParams.email = "",
+            this.formParams.telefone = "",
+            this.formParams.celular = "",
+            this.formParams.cifFob = "",
+            this.formParams.cnpjPagadorOrigem = "",
+            this.formParams.cepOrigem = "",
+            this.formParams.enderecoCepOrigem = "",
+            this.formParams.numeroCepOrigem = "",
+            this.formParams.complementoCepOrigem = "",
+            this.formParams.bairroCepOrigem = "",
+            this.formParams.cidadeCepOrigem = "",
+            this.formParams.estadoCepOrigem = "",
+            this.formParams.quantidade = "",
+            this.formParams.peso = 0,
+            this.formParams.volume = "",
+            this.formParams.dominio = "TDD",
+            this.formParams.cepDestinatario = "02174-010",
+            this.formParams.cnpjDestinatario = "",
+            this.formParams.enderecoDestinatario = "",
+            this.formParams.numeroDestinatario = "",
+            this.formParams.complementoDestinatario = "",
+            this.formParams.bairroDestinatario = "",
+            this.formParams.cidadeDestinatario = "",
+            this.formParams.estadoDestinatario = "",
+            this.formParams.tipoPagamento = "",
+            this.formParams.numeroNF = "",
+            this.formParams.observacao = ""
         },
         voltar: function(currentLocation){
             if(currentLocation == 'dadosColeta'){
@@ -249,6 +253,7 @@ var app = new Vue({
                 this.showResponseScreem = false;
                 this.showHide.dadosAcessoShow = true;
                 this.showHide.showColetaError = false;
+                this.limparDadosTela();
                 setTimeout(validationInit, 1000);
             }
 

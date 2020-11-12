@@ -85,7 +85,8 @@ var app = new Vue({
         desabilitarVolume:false,
         retornoCotacao:null,
         numeroCotacao:0,
-        valorFrete:0 // mock: default 0               
+        valorFrete:0, // mock: default 0    
+        numeroColeta:0,           
     },
     methods: {
         cotar: function () {
@@ -350,6 +351,7 @@ var app = new Vue({
                 }
                 if(responseColeta.data.sucesso == true){
                     this.showHide.showColetaSucesso = true;
+                    this.numeroColeta = responseColeta.data.codigoColeta;
                 }
                                 
             }).catch(error => {
