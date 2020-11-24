@@ -72,6 +72,19 @@ section #iframe:visible {
   font-weight: 400;
   margin-top: 20px;
 }
+#disclaimer{
+  width: 70%;
+  margin: 0 auto;
+  margin-top:35px;
+  margin-bottom:35px;
+}
+#disclaimer h4{
+  text-align: center;
+}
+#disclaimer li{
+  margin-top: 25px;
+  font-size: medium;
+}
 .activity-area{
   width: 100%;
   height: auto;
@@ -318,7 +331,7 @@ section #iframe:visible {
 #responseContacao, #dados-coleta, #sucesso-coleta, #responseColeta{
   text-align: center;
 }
-#responseContacao a, #dados-coleta a, #sucesso-coleta a, #responseColeta a{
+#responseContacao a, #dados-coleta a, #sucesso-coleta a, #responseColeta a, #responseContacao .campo-observacao{
   margin: 0 auto;
 }
 #btn-calcular-cubagem{

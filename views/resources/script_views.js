@@ -41,7 +41,8 @@ var app = new Vue({
             complementoDestinatario:"",
             bairroDestinatario:"",
             cidadeDestinatario:"",
-            estadoDestinatario:""
+            estadoDestinatario:"",
+            observacao:""
         },
         /*
             cnpjPagador:"63004030005740",
@@ -318,8 +319,9 @@ var app = new Vue({
         },
         //TODO
         realizarColeta:function(){
-            var enderecoCompletoDestinatario = "TESTE SITE: NAO COLETAR"
-                //var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario}`
+                var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario} `
+                enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
+                
                 var data={
                      cotacao:this.numeroCotacao,
                     limiteColeta:this.paramsColeta.limiteColeta,

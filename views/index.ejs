@@ -289,6 +289,15 @@
                         <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
                     </div>
                 </div>
+
+                <div class="row tdb-xl-mar--top">
+                    <div class="col-xs-12 col-md-4 campo-observacao">
+                        <label>Observação</label>
+                        <textarea v-model="formParams.observacao" maxlength="50" ></textarea>
+                    </div>
+                    
+                </div>
+
                 <div class="tdb-txt-align-R tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('resultadoCotacao')">nova cotação</a>
                     <a href="javascript:;" class="btn btn-primary" @click="realizarColeta()">realizar coleta</a>
@@ -360,6 +369,16 @@
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroColeta }}</h5>
                     </div>
                 </div>
+                
+                <section id="disclaimer">
+                    <h4>Observações importantes</h4>
+                    <ul>
+                        <li>A presente cotação é válida para a mercadoria acima discriminada, caso haja divergências entre a presente cotação e a mercadoria de fato expedida, o frete será recalculado conforme peso e dimensões aferidas</li>
+                        <li>Se não foi informado o CNPJ do destinatário poderá haver existência ou não da TDE (taxa de dificuldade de entrega) e será verificada novamente no momento da emissão do conhecimento, podendo o valor do frete sofrer alterações</li>
+                        <li>A TDB Transporte não se responsabiliza por indenizações de avarias nos casos de embalagens inadequadas ao processo de transporte, conforme previsão no Art.12 alínea II, da Lei 11.442/07 e transporte de mercadorias com vidro, cerâmicas ou frágeis serão realizados somente com carta isenção de avaria</li>
+                        <li>Reentregas e devoluções serão cobradas como 100% do frete de origem</li>
+                    </ul>
+                </section>
                 
                 <div class="row tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('sucessoColeta')">Nova cotação</a>
