@@ -373,6 +373,7 @@ a#btn-adicionar-linha::after{
   width: 260px;
   margin: 0 auto;
   margin-top: 45px;
+  margin-bottom: 50px;
 }
 #responseContacao a.btn-secundary, #cotacao a.btn-secundary, #dados-coleta a.btn-secundary, #sucesso-coleta a.btn-secundary, #error-cotacao a.btn-secundary, #responseColeta a.btn-secundary{
   color:#69208a;
