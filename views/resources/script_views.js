@@ -319,11 +319,18 @@ var app = new Vue({
         },
         //TODO
         realizarColeta:function(){
-                var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario} `
-                enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
+
+                if(this.formParams.cifFob == 'C'){
+                    var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario} `
+                    enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
+
+                }else{
+                    var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepOrigem} - ${this.formParams.enderecoCepOrigem}, \n ${this.formParams.numeroCepOrigem}, ${this.formParams.bairroCepOrigem}. ${this.formParams.cidadeCepOrigem} - ${this.formParams.estadoCepOrigem}\n`
+                    enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
+                }
                 
                 var data={
-                     cotacao:this.numeroCotacao,
+                    cotacao:this.numeroCotacao,
                     limiteColeta:this.paramsColeta.limiteColeta,
                     token:this.paramsColeta.token,
                     solicitante:this.formParams.email,

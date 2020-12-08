@@ -103,7 +103,12 @@ var app = new Vue({
                 return false;
             }
             
-            var enderecoEntrega = `${this.formParams.enderecoDestinatario},${this.formParams.numeroDestinatario}-${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario}-${this.formParams.estadoDestinatario}`;
+            if(this.formParams.tipoPagamento == "O"){
+                var enderecoEntrega = `${this.formParams.enderecoDestinatario},${this.formParams.numeroDestinatario}-${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario}-${this.formParams.estadoDestinatario}`;
+            }else{
+                var enderecoEntrega = `${this.formParams.enderecoCepOrigem},${this.formParams.numeroCepOrigem}-${this.formParams.bairroCepOrigem}. ${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`;
+            }
+
                 var data= {
                     "dominio": "TDD",
                     "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjDestinatario,
