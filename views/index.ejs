@@ -66,12 +66,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-md-3">
-                                        <label>Razão social / Nome *</label>
-                                        <input type="text" maxlength="65" v-model="formParams.nome" class="" data-validations="[required, minDigit-3]" />
-                                    </div>
-                                    <div class="col-xs-12 col-md-3">
                                         <label>CNPJ / CPF *</label>
                                         <input type="text" v-model="formParams.cnpjPagadorOrigem" class="cnpj" data-validations="[required, minDigit-3]" />
+                                    </div>
+                                    <div class="col-xs-12 col-md-3">
+                                        <label>Razão social / Nome *</label>
+                                        <input type="text" maxlength="65" v-model="formParams.nome" class="" data-validations="[required, minDigit-3]" />
                                     </div>
                                     <div class="col-xs-12 col-md-3">
                                         <label>E-mail *</label>

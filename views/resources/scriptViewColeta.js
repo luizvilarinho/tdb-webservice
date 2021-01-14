@@ -106,21 +106,21 @@ var app = new Vue({
             if(this.formParams.tipoPagamento == "O"){
                 var enderecoEntrega = `${this.formParams.enderecoDestinatario},${this.formParams.numeroDestinatario}-${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario}-${this.formParams.estadoDestinatario}`;
             }else{
-                var enderecoEntrega = `${this.formParams.enderecoCepOrigem},${this.formParams.numeroCepOrigem}-${this.formParams.bairroCepOrigem}. ${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`;
+                var enderecoEntrega = `${this.formParams.enderecoCepOrigem},${this.formParams.numeroCepOrigem}-${this.formParams.bairroCepOrigem}.${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`;
             }
 
                 var data= {
                     "dominio": "TDD",
-                    "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjDestinatario,
-                    "cnpjDestinatario": this.formParams.tipoPagamento == "O" ? this.formParams.cnpjDestinatario : this.formParams.cnpjPagador,
+                    "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjPagadorOrigem,
+                    "cnpjDestinatario": this.formParams.tipoPagamento == "O" ?  "" : this.formParams.cnpjPagador,
                     "numeroNF":this.formParams.numeroNF,
                     "tipoPagamento":this.formParams.tipoPagamento,
-                    "enderecoEntrega":enderecoEntrega,
+                    "enderecoEntrega":"",
                     "cepEntrega": this.formParams.cepDestinatario.replace("-", ""),
                     "solicitante":this.formParams.email,
                     "quantidade": this.formParams.quantidade,
                     "peso": this.formParams.peso,
-                    "observacao":this.formParams.observacao,
+                    "observacao":this.formParams.tipoPagamento == "D" ? enderecoEntrega + "-" + this.formParams.observacao : this.formParams.observacao,
                     "instrucao":"",
                     "cubagem": volume,
                     "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
@@ -135,16 +135,16 @@ var app = new Vue({
                     url: `/tdbwebservice/v1/viewcoleta`,
                     data: {
                         "dominio": "TDD",
-                        "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjDestinatario,
-                        "cnpjDestinatario": this.formParams.tipoPagamento == "O" ? this.formParams.cnpjDestinatario : this.formParams.cnpjPagador,
+                        "cnpjRemetente": this.formParams.tipoPagamento == "O"?  this.formParams.cnpjPagador : this.formParams.cnpjPagadorOrigem,
+                        "cnpjDestinatario": this.formParams.tipoPagamento == "O" ?  "" : this.formParams.cnpjPagador,
                         "numeroNF":this.formParams.numeroNF,
                         "tipoPagamento":this.formParams.tipoPagamento,
-                        "enderecoEntrega":enderecoEntrega,
+                        "enderecoEntrega":"",
                         "cepEntrega": this.formParams.cepDestinatario.replace("-", "").trim(),
                         "solicitante":this.formParams.email,
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
-                        "observacao":this.formParams.observacao,
+                        "observacao":this.formParams.tipoPagamento == "D" ? "COLETAR EM: CEP " + this.formParams.cepOrigem + "-" + enderecoEntrega + "-" + this.formParams.observacao : this.formParams.observacao,
                         "instrucao":"",
                         "cubagem": volume,
                         "valorMerc": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),

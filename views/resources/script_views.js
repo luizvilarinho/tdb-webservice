@@ -141,8 +141,8 @@ var app = new Vue({
                         "dominio": "TDD",
                         "cnpjPagador": this.formParams.cifFob == "C" ? this.formParams.cnpjPagadorOrigem : this.formParams.cnpjDestinatario,
                         "senhaPagador":this.formParams.senhaPagador,
-                        "cepOrigem": this.formParams.cepOrigem.replace("-", ""),
-                        "cepDestino": this.formParams.cepDestinatario.replace("-", ""),
+                        "cepOrigem": this.formParams.cepOrigem.replace("-", "").trim(),
+                        "cepDestino": this.formParams.cepDestinatario.replace("-", "").trim(),
                         "valorNF": $("input[name='valorCarga']").val().replace(/[^0-9,]/g, "").replace(",", "."),
                         "quantidade": this.formParams.quantidade,
                         "peso": this.formParams.peso,
@@ -318,16 +318,10 @@ var app = new Vue({
             this.showHide.showDadosColeta = true;
         },
         //TODO
+        
         realizarColeta:function(){
 
-                if(this.formParams.cifFob == 'C'){
-                    var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepDestinatario} - ${this.formParams.enderecoDestinatario}, ${this.formParams.numeroDestinatario}, ${this.formParams.bairroDestinatario}. ${this.formParams.cidadeDestinatario} - ${this.formParams.estadoDestinatario} `
-                    enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
-
-                }else{
-                    var enderecoCompletoDestinatario = `Coletar no endereco: cep:${this.formParams.cepOrigem} - ${this.formParams.enderecoCepOrigem}, \n ${this.formParams.numeroCepOrigem}, ${this.formParams.bairroCepOrigem}. ${this.formParams.cidadeCepOrigem} - ${this.formParams.estadoCepOrigem}\n`
-                    enderecoCompletoDestinatario = enderecoCompletoDestinatario + this.formParams.observacao;
-                }
+            var enderecoCompletoDestinatario = `Coletar em cep:${this.formParams.cepOrigem}-${this.formParams.enderecoCepOrigem},${this.formParams.numeroCepOrigem},${this.formParams.bairroCepOrigem}.${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`
                 
                 var data={
                     cotacao:this.numeroCotacao,
