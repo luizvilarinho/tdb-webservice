@@ -276,15 +276,15 @@
                     <h2 class="col-sm-12 col-md-12 tdb-md-mar--bottom">Resultado</h2>
                 </header>
                 <div class="row">
-                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                    <div class="col-sm-12 col-md-4 tdb-md-mar--bottom">
                         <h4 class="col-sm-12 col-md-12">Número da cotação</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroCotacao }}</h5>
                     </div>
-                    <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
+                    <div class="col-sm-12 col-md-4 tdb-md-mar--bottom">
                         <h4 class="col-sm-12 col-md-12">Valor Frete</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ valorFrete }}</h5>
                     </div>
-                    <div class="col-sm-12 col-md-12">
+                    <div class="col-sm-12 col-md-4">
                         <h4 class="col-sm-12 col-md-12">Prazo previsto</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{prazo }} dias úteis</h5>
                     </div>
@@ -300,7 +300,7 @@
                     </ul>
                 </section>
 
-                <div class="row tdb-xl-mar--top">
+                <div class="row">
                     <div class="col-xs-12 col-md-4 campo-observacao">
                         <label>Observação</label>
                         <textarea v-model="formParams.observacao" maxlength="50" ></textarea>
@@ -357,7 +357,7 @@
                     <h4 class="col-sm-12 col-md-12 tdb-md-mar--bottom">{{ errorMessages.cotacao }}</h4>
                 </header>
                 
-                <div class="tdb-txt-align-R tdb-xl-mar--top btns-result__container">
+                <div class="tdb-txt-align-C tdb-xl-mar--top btns-result__container">
                     <a href="javascript:;" class="btn btn-secundary" @click="voltar('cotacaoError')">Tentar novamente</a>
                     <!-- <a href="javascript:;" class="btn btn-primary" click="window.parant.closeModal()">Fechar</a> -->
                 </div>
@@ -378,6 +378,12 @@
                     <div class="col-sm-12 col-md-12 tdb-md-mar--bottom">
                         <h4 class="col-sm-12 col-md-12">Número da Coleta</h4>
                         <h5 class="col-sm-12 col-md-12 color-purple">{{ numeroColeta }}</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <p class="col-sm-12 col-md-12 tdb-txt-align-C tdb-sm-mar--top">A coleta será programada para ser á partir do próximo dia útil em caso de dúvidas entrar em contato com o depto de coleta de sua região de atendimento</p>
                     </div>
                 </div>
                 

@@ -58,44 +58,88 @@ cotacaoRouter.post("/", (req, res)=>{
                 if(!errCotacaoColeta){
                     clienteCotacaoColeta.cotarSite(obj, (errCotar, cotacaoResponse) =>{
                         if(!errCotar){
-                            console.log("INPUT", obj);
+                            console.log("HERE1");
 
                             var data = JSON.parse(convert.xml2json(cotacaoResponse.return.$value, {compact: true, spaces: 4}));
 
                             console.log("OUTPUT", data);
 
-                            if(data.cotacao.erro._text > 0){
+                            if(data.cotacao == undefined){
+                                var objectPath = data.coleta;
+                            }else{
+                                var objectPath = data.cotacao
+                            }
+
+
+                            if(parseFloat(objectPath.erro._text) > 0){
                                 data = {
                                     sucesso:false,
-                                    qntErros:data.cotacao.erro._text,
-                                    mensagem:data.cotacao.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
-                                    data:data.cotacao
+                                    qntErros:objectPath.erro._text,
+                                    mensagem:objectPath.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
+                                    data:objectPath
                                 }
                             }else{
                                 data = {
                                     sucesso:true,
-                                    valorFrete:data.cotacao.frete._text,
-                                    prazo: data.cotacao.prazo._text,
-                                    token: data.cotacao.token._text,
-                                    numeroCotacao: data.cotacao.cotacao._text,
-                                    data:data.cotacao
+                                    valorFrete:objectPath.frete._text,
+                                    prazo: objectPath.prazo._text,
+                                    token: objectPath.token._text,
+                                    numeroCotacao: objectPath.cotacao._text,
+                                    data:objectPath
                                 }
                             }
                             
                             res.json(data);
                         }else{
-                            console.log("erro ao realizar cotação", errCotar)
+                            console.log("HERE2");
+                            var data = JSON.parse(convert.xml2json(cotacaoResponse.return.$value, {compact: true, spaces: 4}));
+
+                            if(data.cotacao == undefined){
+                                var objectPath = data.coleta;
+                            }else{
+                                var objectPath = data.cotacao
+                            }
+
+                            data = {
+                                sucesso:false,
+                                qntErros:objectPath.erro._text,
+                                mensagem:objectPath.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
+                            }
+        
+                            res.json(data);
                         }
                        
                      })
                 }else{
-                    console.log("um erro ocorreu ", errCotacaoColeta) 
+                    console.log("HERE3");
+
+                    if(data.cotacao == undefined){
+                        var objectPath = data.coleta;
+                    }else{
+                        var objectPath = data.cotacao
+                    }
+
+                    data = {
+                        sucesso:false,
+                        qntErros:objectPath.erro._text,
+                        mensagem:objectPath.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
+                    }
+
+                    res.json(data);
                 }
               
             })
          })
         }else{
-            console.log("um erro ocorreu ", err) 
+            console.log("HERE4");
+            data = {
+                sucesso:false,
+                qntErros:data.cotacao.erro._text,
+                mensagem:data.cotacao.mensagem._text.replace(/(&atilde;)/g, "ã").replace(/(&ccedil;)/g, "ç").replace(/(&aacute;)/g, "á"),
+            }
+
+            res.json(data);
+            
         }
     })
 })

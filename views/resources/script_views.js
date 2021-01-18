@@ -243,6 +243,7 @@ var app = new Vue({
             if(currentLocation == 'resultadoCotacao'){
                 this.showResponseScreem = false;
                 this.showHide.dadosAcessoShow = true;
+                this.limparDadosTela();
                 setTimeout(validationInit, 1000);
             }
 
@@ -259,7 +260,9 @@ var app = new Vue({
             }
 
             if(currentLocation == 'cotacaoError'){
+                this.limparDadosTela();
                 this.showHide.showCotacaoError = false;
+                this.showHide.dadosAcessoShow = true;
             }
 
             setTimeout(function(){
