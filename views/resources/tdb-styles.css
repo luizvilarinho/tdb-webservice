@@ -83,6 +83,7 @@ section #iframe:visible {
 #disclaimer li{
   margin-top: 15px;
   font-size: small;
+  list-style: none;
 }
 .activity-area{
   width: 100%;

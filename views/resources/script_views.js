@@ -210,13 +210,13 @@ var app = new Vue({
             })
         },
         limparDadosTela:function(){
-            this.formParams.cnpjPagador="";
-            this.formParams.senhaPagador="";
+            //this.formParams.cnpjPagador="";
+            //this.formParams.senhaPagador="";
             this.formParams.nome="";
             this.formParams.email="",
             this.formParams.telefone="";
             this.formParams.celular="";
-            this.formParams.cifFob="";
+            //this.formParams.cifFob="";
             this.formParams.cnpjPagadorOrigem="";
             this.formParams.cepOrigem="";
             this.formParams.enderecoCepOrigem="";
@@ -324,7 +324,7 @@ var app = new Vue({
         
         realizarColeta:function(){
 
-            var enderecoCompletoDestinatario = `Coletar em cep:${this.formParams.cepOrigem}-${this.formParams.enderecoCepOrigem},${this.formParams.numeroCepOrigem},${this.formParams.bairroCepOrigem}.${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`
+            var enderecoCompletoDestinatario = `Coletar: cep ${this.formParams.cepOrigem}-nr ${this.formParams.numeroCepOrigem},${this.formParams.enderecoCepOrigem},${this.formParams.bairroCepOrigem}.${this.formParams.cidadeCepOrigem}-${this.formParams.estadoCepOrigem}`
                 
                 var data={
                     cotacao:this.numeroCotacao,
