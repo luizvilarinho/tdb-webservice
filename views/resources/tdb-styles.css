@@ -424,3 +424,12 @@ textarea{
     display:none;
   }
 }
+/*ajuste versao mobile*/
+@media(max-width: 480px ){
+  #cotacao div {
+    margin-bottom: 25px;
+  }
+  #cotacao h4 {
+    margin-top: 0px;
+}
+}
